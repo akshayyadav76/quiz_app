@@ -17,21 +17,17 @@ class App extends StatefulWidget{
 }
 
 class _AppState extends State<App> {
-  List _questions=[
-    "where is Bhopal",
-    "who is the president of India",
-  ];
 
-  var _index= 0;
+  var _index = 0;
 
- void _onPass(BuildContext context, String no){
-     String no1=no;
+ void _onPass(BuildContext context, String rightAnswer){
+
      setState(() {
        _index = _index +1;
      });
 
-   var alert = AlertDialog(title: Text("${no1}result"),
-   content: Text("your anwser is wrong"),
+   var alert = AlertDialog(title: Text("result"),
+   content: _questions[_index][1] =="Modi"? Text("your anwser is wrong"):Text('rith'),
      actions: <Widget>[
        RaisedButton(
            child: Text("Ok",),
@@ -43,25 +39,38 @@ class _AppState extends State<App> {
      return alert;
    });
  }
+  List _questions=[
+
+      { 1: "where is Bhopal",
+        "Answers": ["Us","India","Russia","Iserail"]
+      },
+
+      { 1: "who is the president of India",
+        "Answers": ["Tram","Modi","Vlamidin Putin","Manmohan Singh"]
+      },
+
+      { 1: "whose Programming language you know most",
+        "Answers": ["C++","Java","Dart","Python"]
+      },
+  ];
 
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-
       appBar: AppBar(title: Text("Quiz App"),centerTitle: true,),
-      body: Column(
+      body: _index < _questions.length ? Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
         SizedBox(height: 20,),
 
-        Questions(_questions[_index]),
+        Questions(_questions[_index][1]),
 
         SizedBox(height: 20,),
-        Answer(_onPass),
-        RaisedButton(child: Text("answer 2"),onPressed: null),
-        RaisedButton(child: Text("answer 3"),onPressed: null),
-        RaisedButton(child: Text("answer 4"),onPressed: null),
-      ],),
+          Answer(_onPass,_questions[_index]["Answers"][0]),
+          Answer(_onPass,_questions[_index]["Answers"][1],),
+          Answer(_onPass,_questions[_index]["Answers"][2]),
+          Answer(_onPass,_questions[_index]["Answers"][3]),
+      ],):Center(child: Text("you did it"),),
     );
   }
 }

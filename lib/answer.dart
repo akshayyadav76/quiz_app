@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
-  Function press;
+  final Function press;
+  final String answerNo;
 
-  Answer(this.press);
+
+  Answer(this.press, this.answerNo );
 
   @override
   Widget build(BuildContext context) {
-    return  RaisedButton(child: Text("answer 1"),onPressed: ()=> press(context,"answer 1"));
+    return RaisedButton(
+        color: Colors.blue,
+        child: Text(answerNo,style: TextStyle(fontSize: 23.0,fontWeight: FontWeight.w600),),
+        onPressed: () => press(context, answerNo,),
+        shape:  BeveledRectangleBorder(side: BorderSide(
+          style: BorderStyle.solid,
+          color: Colors.brown,
+        ))
+    );
   }
 }
