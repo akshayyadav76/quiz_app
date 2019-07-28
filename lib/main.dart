@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './questions.dart';
-import './answer.dart';
+import './quiz.dart';
 
 main(){
 runApp(
@@ -19,38 +18,62 @@ class App extends StatefulWidget{
 class _AppState extends State<App> {
 
   var _index = 0;
+  //int _totalScore;
 
- void _onPass(BuildContext context, String rightAnswer){
+ void _onPass(BuildContext context, String rightAnswer,int score){
 
      setState(() {
        _index = _index +1;
+       //_totalScore +=score;
      });
 
+
+
    var alert = AlertDialog(title: Text("result"),
-   content: _questions[_index][1] =="Modi"? Text("your anwser is wrong"):Text('rith'),
+   content: Text('your score is $score'),
      actions: <Widget>[
        RaisedButton(
            child: Text("Ok",),
             textColor: Colors.black,
-           onPressed: (){Navigator.of(context).pop();})],
+           onPressed: (){Navigator.pop(context);})],
    );
 
    showDialog(context: context,builder: (BuildContext context){
      return alert;
    });
  }
+ 
+ void _reset(){
+   setState(() {
+     _index = 0;
+   });
+    
+ }
+
   List _questions=[
 
       { 1: "where is Bhopal",
-        "Answers": ["Us","India","Russia","Iserail"]
+        "Answers": [
+          {"Text": "Us",    "Score":0 },
+          {"Text":"India",  "Score":5 },
+          {"Text":"Russia", "Score":0 },
+          {"Text":"Iserail","Score":0 }]
       },
 
       { 1: "who is the president of India",
-        "Answers": ["Tram","Modi","Vlamidin Putin","Manmohan Singh"]
+        "Answers": [
+          {"Text":"Tram","Score":0 },
+          {"Text":"Modi","Score": 5} ,
+          {"Text":"Vlamidin Putin","Score":0 },
+          {"Text":"Manmohan Singh","Score":0 }]
       },
 
       { 1: "whose Programming language you know most",
-        "Answers": ["C++","Java","Dart","Python"]
+        "Answers": [
+          {"Text":"C++","Score":0 },
+          {"Text":"Java","Score":0 },
+          {"Text":"Dart","Score":5 },
+          {"Text":"Python","Score":0 }]
       },
   ];
 
@@ -58,19 +81,9 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(title: Text("Quiz App"),centerTitle: true,),
-      body: _index < _questions.length ? Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-        SizedBox(height: 20,),
-
-        Questions(_questions[_index][1]),
-
-        SizedBox(height: 20,),
-          Answer(_onPass,_questions[_index]["Answers"][0]),
-          Answer(_onPass,_questions[_index]["Answers"][1],),
-          Answer(_onPass,_questions[_index]["Answers"][2]),
-          Answer(_onPass,_questions[_index]["Answers"][3]),
-      ],):Center(child: Text("you did it"),),
+      body: _index < _questions.length
+       ? Quiz(_onPass,_questions,_index)
+       : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
     );
   }
 }
