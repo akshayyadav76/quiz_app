@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
@@ -56,20 +57,30 @@ class _AppState extends State<App> {
       ]
     },
   ];
-      var reponse;
-     Future<List> getdata()async{
-       reponse =http.get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple");
+
+    Map jsonData;
+    List as;
+
+     Future<Map> getdata()async{
+     String url= "https://opentdb.com/api.php?amount=15&category=9&difficulty=easy&type=multiple";
+     final response = await http.get(url);
+     var jsonData= json.decode(response.body);
+    // print(response.body);
+
+        as= jsonData['results'];
+
+
      }
+
   @override
-  void initState() {
-     this.getdata();
+  void initState(){
+    getdata();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("ssssssssssssssssssssssssssssssssssssssssssssssssssssss"
-        "ssssssssssssss${reponse}");
+
     return Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
@@ -80,7 +91,7 @@ class _AppState extends State<App> {
             Text("dashboard"),
             FlatButton(onPressed: () {
              Navigator.push(context, MaterialPageRoute(builder: (context){
-               return QuizActivity(_questions);
+               return QuizActivity(_questions,jsonData,as);
              }));
             }, child: Text("submit"))
           ],

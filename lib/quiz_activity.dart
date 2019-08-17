@@ -4,7 +4,9 @@ import './quiz.dart';
 
 class QuizActivity extends StatefulWidget {
   List jj;
-  QuizActivity(this.jj);
+  Map jsonData;
+  List as;
+  QuizActivity(this.jj,this.jsonData,this.as);
   @override
   _QuizActivityState createState() => _QuizActivityState();
 }
@@ -43,13 +45,14 @@ class _QuizActivityState extends State<QuizActivity> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.as);
     return Scaffold(
       appBar: AppBar(title: Text("app"),),
        body: Column(children: <Widget>[
         Text("Score +5"),
 
           _index <widget.jj.length
-            ? Quiz(_onPass,widget.jj,_index,)
+            ? Quiz(_onPass,widget.jj,_index,widget.jsonData)
             : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
       ],),
     );

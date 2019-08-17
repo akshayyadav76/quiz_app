@@ -6,9 +6,10 @@ class Quiz extends StatelessWidget {
   final Function _onPass;
   final List _questions;
   final int _index;
+  Map jsonData;
 
 
-  Quiz(this._onPass,this._questions,this._index);
+  Quiz(this._onPass,this._questions,this._index,this.jsonData);
 
   @override
   Widget build(BuildContext context) {
