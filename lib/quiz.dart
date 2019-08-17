@@ -7,6 +7,7 @@ class Quiz extends StatelessWidget {
   final List _questions;
   final int _index;
 
+
   Quiz(this._onPass,this._questions,this._index);
 
   @override
@@ -19,10 +20,12 @@ class Quiz extends StatelessWidget {
         Questions(_questions[_index][1]),
 
         SizedBox(height: 20,),
+
         Answer(_onPass,_questions[_index]["Answers"][0]["Text"],_questions[_index]["Answers"][0]["Score"]),
         Answer(_onPass,_questions[_index]["Answers"][1]["Text"],_questions[_index]["Answers"][1]["Score"]),
         Answer(_onPass,_questions[_index]["Answers"][2]["Text"],_questions[_index]["Answers"][2]["Score"]),
         Answer(_onPass,_questions[_index]["Answers"][3]["Text"],_questions[_index]["Answers"][3]["Score"]),
+
       ],);
   }
 }

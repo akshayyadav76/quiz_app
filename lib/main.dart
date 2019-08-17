@@ -1,90 +1,89 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart'as http;
 
 import './quiz.dart';
+import './quiz_data.dart';
+import './quiz_activity.dart';
 
-main(){
-runApp(
-    MaterialApp(
 
-      home: App(),));
+main() {
+  runApp(MaterialApp(
+    theme: ThemeData(
+      primarySwatch: Colors.green,
+    ),
+    home: App(),
+  ));
 }
 
-class App extends StatefulWidget{
-
+class App extends StatefulWidget {
   @override
   _AppState createState() => _AppState();
 }
 
 class _AppState extends State<App> {
 
-  var _index = 0;
-  //int _totalScore;
-
- void _onPass(BuildContext context, String rightAnswer,int score){
-
-     setState(() {
-       _index = _index +1;
-       //_totalScore +=score;
-     });
+  List see = data;
 
 
-
-   var alert = AlertDialog(title: Text("result"),
-   content: Text('your score is $score'),
-     actions: <Widget>[
-       RaisedButton(
-           child: Text("Ok",),
-            textColor: Colors.black,
-           onPressed: (){Navigator.pop(context);})],
-   );
-
-   showDialog(context: context,builder: (BuildContext context){
-     return alert;
-   });
- }
- 
- void _reset(){
-   setState(() {
-     _index = 0;
-   });
-    
- }
-
-  List _questions=[
-
-      { 1: "where is Bhopal",
-        "Answers": [
-          {"Text": "Us",    "Score":0 },
-          {"Text":"India",  "Score":5 },
-          {"Text":"Russia", "Score":0 },
-          {"Text":"Iserail","Score":0 }]
-      },
-
-      { 1: "who is the president of India",
-        "Answers": [
-          {"Text":"Tram","Score":0 },
-          {"Text":"Modi","Score": 5} ,
-          {"Text":"Vlamidin Putin","Score":0 },
-          {"Text":"Manmohan Singh","Score":0 }]
-      },
-
-      { 1: "whose Programming language you know most",
-        "Answers": [
-          {"Text":"C++","Score":0 },
-          {"Text":"Java","Score":0 },
-          {"Text":"Dart","Score":5 },
-          {"Text":"Python","Score":0 }]
-      },
+  List _questions = [
+    {
+      1: "where is Bhopal",
+      "Answers": [
+        {"Text": "Us", "Score": 0},
+        {"Text": "India", "Score": 5},
+        {"Text": "Russia", "Score": 0},
+        {"Text": "Iserail", "Score": 0}
+      ]
+    },
+    {
+      1: "who is the president of India",
+      "Answers": [
+        {"Text": "Tram", "Score": 0},
+        {"Text": "Modi", "Score": 5},
+        {"Text": "Vlamidin Putin", "Score": 0},
+        {"Text": "Manmohan Singh", "Score": 0}
+      ]
+    },
+    {
+      1: "whose Programming language you know most",
+      "Answers": [
+        {"Text": "C++", "Score": 0},
+        {"Text": "Java", "Score": 5},
+        {"Text": "Dart", "Score": 0},
+        {"Text": "Python", "Score": 0}
+      ]
+    },
   ];
+      var reponse;
+     Future<List> getdata()async{
+       reponse =http.get("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple");
+     }
+  @override
+  void initState() {
+     this.getdata();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: AppBar(title: Text("Quiz App"),centerTitle: true,),
-      body: _index < _questions.length
-       ? Quiz(_onPass,_questions,_index)
-       : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
-    );
+    print("ssssssssssssssssssssssssssssssssssssssssssssssssssssss"
+        "ssssssssssssss${reponse}");
+    return Scaffold(
+        appBar: AppBar(
+          title: Text("Quiz App"),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: <Widget>[
+            Text("dashboard"),
+            FlatButton(onPressed: () {
+             Navigator.push(context, MaterialPageRoute(builder: (context){
+               return QuizActivity(_questions);
+             }));
+            }, child: Text("submit"))
+          ],
+        ));
   }
 }
-
