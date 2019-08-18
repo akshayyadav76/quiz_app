@@ -45,6 +45,7 @@ class _QuizActivityState extends State<QuizActivity> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.as.length);
     print(widget.as);
     return Scaffold(
       appBar: AppBar(title: Text("app"),),

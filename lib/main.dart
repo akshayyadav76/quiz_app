@@ -78,6 +78,33 @@ class _AppState extends State<App> {
     super.initState();
   }
 
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context){
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              as ==null ?
+               CircularProgressIndicator():
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+        return QuizActivity(_questions,jsonData,as);
+      }))
+            ],
+          ),
+        );
+      },
+    );
+//    new Future.delayed(new Duration(seconds: 3), () {
+//      Navigator.push(context, MaterialPageRoute(builder: (context){
+//        return QuizActivity(_questions,jsonData,as);
+//      }));
+//    });
+  }
+ 
   @override
   Widget build(BuildContext context) {
 
@@ -89,11 +116,7 @@ class _AppState extends State<App> {
         body: Column(
           children: <Widget>[
             Text("dashboard"),
-            FlatButton(onPressed: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context){
-               return QuizActivity(_questions,jsonData,as);
-             }));
-            }, child: Text("submit"))
+            FlatButton(onPressed:_onLoading, child: Text("submit"))
           ],
         ));
   }
