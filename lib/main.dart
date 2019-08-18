@@ -62,7 +62,7 @@ class _AppState extends State<App> {
     List as;
 
      Future<Map> getdata()async{
-     String url= "https://opentdb.com/api.php?amount=15&category=9&difficulty=easy&type=multiple";
+     String url= "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
      final response = await http.get(url);
      var jsonData= json.decode(response.body);
     // print(response.body);
@@ -78,6 +78,7 @@ class _AppState extends State<App> {
     super.initState();
   }
 
+  int seconds =3;
 
   void _onLoading() {
     showDialog(
@@ -88,21 +89,19 @@ class _AppState extends State<App> {
           child: new Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              as ==null ?
-               CircularProgressIndicator():
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-        return QuizActivity(_questions,jsonData,as);
-      }))
+
+               CircularProgressIndicator(),
+              Text("time left $seconds"),
             ],
           ),
         );
       },
     );
-//    new Future.delayed(new Duration(seconds: 3), () {
-//      Navigator.push(context, MaterialPageRoute(builder: (context){
-//        return QuizActivity(_questions,jsonData,as);
-//      }));
-//    });
+    new Future.delayed(new Duration(seconds: seconds), () {
+      Navigator.push(context, MaterialPageRoute(builder: (context){
+        return QuizActivity(_questions,jsonData,as);
+      }));
+    });
   }
  
   @override
