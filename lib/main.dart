@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
 
-import './quiz.dart';
+
 import './quiz_data.dart';
 import './quiz_activity.dart';
 
@@ -25,51 +25,47 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
 
-  List see = data;
+  Map jsonData;
+  List as;
+  int seconds =3;
 
 
-  List _questions = [
-    {
-      1: "where is Bhopal",
-      "Answers": [
-        {"Text": "Us", "Score": 0},
-        {"Text": "India", "Score": 5},
-        {"Text": "Russia", "Score": 0},
-        {"Text": "Iserail", "Score": 0}
-      ]
-    },
-    {
-      1: "who is the president of India",
-      "Answers": [
-        {"Text": "Tram", "Score": 0},
-        {"Text": "Modi", "Score": 5},
-        {"Text": "Vlamidin Putin", "Score": 0},
-        {"Text": "Manmohan Singh", "Score": 0}
-      ]
-    },
-    {
-      1: "whose Programming language you know most",
-      "Answers": [
-        {"Text": "C++", "Score": 0},
-        {"Text": "Java", "Score": 5},
-        {"Text": "Dart", "Score": 0},
-        {"Text": "Python", "Score": 0}
-      ]
-    },
-  ];
-
-    Map jsonData;
-    List as;
+//  List _questions = [
+//    {
+//      1: "where is Bhopal",
+//      "Answers": [
+//        {"Text": "Us", "Score": 0},
+//        {"Text": "India", "Score": 5},
+//        {"Text": "Russia", "Score": 0},
+//        {"Text": "Iserail", "Score": 0}
+//      ]
+//    },
+//    {
+//      1: "who is the president of India",
+//      "Answers": [
+//        {"Text": "Tram", "Score": 0},
+//        {"Text": "Modi", "Score": 5},
+//        {"Text": "Vlamidin Putin", "Score": 0},
+//        {"Text": "Manmohan Singh", "Score": 0}
+//      ]
+//    },
+//    {
+//      1: "whose Programming language you know most",
+//      "Answers": [
+//        {"Text": "C++", "Score": 0},
+//        {"Text": "Java", "Score": 5},
+//        {"Text": "Dart", "Score": 0},
+//        {"Text": "Python", "Score": 0}
+//      ]
+//    },
+//  ];
 
      Future<Map> getdata()async{
      String url= "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
      final response = await http.get(url);
      var jsonData= json.decode(response.body);
     // print(response.body);
-
         as= jsonData['results'];
-
-
      }
 
   @override
@@ -78,7 +74,6 @@ class _AppState extends State<App> {
     super.initState();
   }
 
-  int seconds =3;
 
   void _onLoading() {
     showDialog(
@@ -99,7 +94,7 @@ class _AppState extends State<App> {
     );
     new Future.delayed(new Duration(seconds: seconds), () {
       Navigator.push(context, MaterialPageRoute(builder: (context){
-        return QuizActivity(_questions,jsonData,as);
+        return QuizActivity(as);
       }));
     });
   }

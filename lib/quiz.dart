@@ -4,13 +4,13 @@ import './questions.dart';
 
 class Quiz extends StatefulWidget {
    final Function _onPass;
-   List _questions;
+   //List _questions;
   final int _index;
-  Map jsonData;
+ // Map jsonData;
   List as;
 
 
-  Quiz(this._onPass,this._questions,this._index,this.jsonData,this.as);
+  Quiz(this._onPass,this._index,this.as);
 
   @override
   _QuizState createState() => _QuizState();
@@ -23,17 +23,18 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.as);
     List butons=[
-    widget._questions[widget._index]["Answers"][0]["Text"],
+    widget.as[widget._index]['correct_answer'],
     //widget._questions[widget._index]["Answers"][0]["Score"],
 
-    widget._questions[widget._index]["Answers"][1]["Text"],
+      widget.as[widget._index]['incorrect_answers'][0],
     //widget._questions[widget._index]["Answers"][1]["Score"],
 
-    widget._questions[widget._index]["Answers"][2]["Text"],
+      widget.as[widget._index]['incorrect_answers'][1],
    // widget._questions[widget._index]["Answers"][2]["Score"],
 
-    widget._questions[widget._index]["Answers"][3]["Text"],
+      widget.as[widget._index]['incorrect_answers'][2],
    // widget._questions[widget._index]["Answers"][3]["Score"],
 
     ];
@@ -43,7 +44,7 @@ class _QuizState extends State<Quiz> {
       children: <Widget>[
         SizedBox(height: 20,),
 
-        Questions(widget.as[0]['question']),
+        Questions(widget.as[widget._index]['question']),
 
         SizedBox(height: 20,),
         Answer(widget._onPass,butons[0]),
