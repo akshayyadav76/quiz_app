@@ -7,9 +7,10 @@ class Quiz extends StatelessWidget {
   final List _questions;
   final int _index;
   Map jsonData;
+  List as;
 
 
-  Quiz(this._onPass,this._questions,this._index,this.jsonData);
+  Quiz(this._onPass,this._questions,this._index,this.jsonData,this.as);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class Quiz extends StatelessWidget {
       children: <Widget>[
         SizedBox(height: 20,),
 
-        Questions(_questions[_index][1]),
+        Questions(as[0]['question']),
 
         SizedBox(height: 20,),
 

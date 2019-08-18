@@ -53,7 +53,7 @@ class _QuizActivityState extends State<QuizActivity> {
         Text("Score +5"),
 
           _index <widget.jj.length
-            ? Quiz(_onPass,widget.jj,_index,widget.jsonData)
+            ? Quiz(_onPass,widget.jj,_index,widget.jsonData,widget.as)
             : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
       ],),
     );
