@@ -12,7 +12,8 @@ import './quiz_activity.dart';
 main() {
   runApp(MaterialApp(
     theme: ThemeData(
-      primarySwatch: Colors.green,
+      primaryColor: Colors.white
+     // primarySwatch: Colors.lightGreen
     ),
     home: App(),
   ));
@@ -61,11 +62,12 @@ class _AppState extends State<App> {
 //  ];
 
      Future<Map> getdata()async{
-     String url= "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
+     String url= "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple";
      final response = await http.get(url);
      var jsonData= json.decode(response.body);
-    // print(response.body);
-        as= jsonData['results'];
+       print(jsonData);
+       as= jsonData['results'];
+        return null;
      }
 
   @override
@@ -84,7 +86,6 @@ class _AppState extends State<App> {
           child: new Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-
                CircularProgressIndicator(),
               Text("time left $seconds"),
             ],
@@ -93,19 +94,22 @@ class _AppState extends State<App> {
       },
     );
     new Future.delayed(new Duration(seconds: seconds), () {
+
       Navigator.push(context, MaterialPageRoute(builder: (context){
         return QuizActivity(as);
       }));
-    });
+    }
+    );
   }
  
   @override
   Widget build(BuildContext context) {
-
+   // print(as);
     return Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
           centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColorLight ,
         ),
         body: Column(
           children: <Widget>[

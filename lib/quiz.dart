@@ -47,10 +47,10 @@ class _QuizState extends State<Quiz> {
         Questions(widget.as[widget._index]['question']),
 
         SizedBox(height: 20,),
-        Answer(widget._onPass,butons[0]),
-        Answer(widget._onPass,butons[1]),
-        Answer(widget._onPass,butons[2]),
-        Answer(widget._onPass,butons[3]),
+        Answer(widget._onPass,butons[0],as: widget.as,index: widget._index),
+        Answer(widget._onPass,butons[1],as: widget.as,index: widget._index),
+        Answer(widget._onPass,butons[2],as: widget.as,index: widget._index),
+        Answer(widget._onPass,butons[3],as: widget.as,index: widget._index),
 
 
 

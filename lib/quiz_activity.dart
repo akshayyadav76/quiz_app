@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './quiz.dart';
 
@@ -12,11 +13,18 @@ class QuizActivity extends StatefulWidget {
 class _QuizActivityState extends State<QuizActivity> {
 
   var _index = 0;
+
   void _onPass(BuildContext context, String rightAnswer,) {
-    setState(() {
-      _index = _index + 1;
-      //_totalScore +=score;
-    });
+
+    new Future.delayed(new Duration(seconds: 3), () {
+      setState(() {
+        _index = _index + 1;
+        //_totalScore +=score;
+      });
+    }
+    );
+
+
 
 //   var alert = AlertDialog(title: Text("result"),
 //   content: Text('your score is $score'),
@@ -30,6 +38,20 @@ class _QuizActivityState extends State<QuizActivity> {
 //   showDialog(context: context,builder: (BuildContext context){
 //     return alert;
 //   });
+
+    void ok(){
+
+    }
+
+    Future<bool> exit() async {
+
+      var alert=AlertDialog(content: Text("Do You Want To Exti"),
+       actions: <Widget>[
+         OutlineButton(child: Text("Ok"),),
+         OutlineButton(child: Text("Cancle"),)
+       ],);
+    }
+
   }
 
   void _reset() {
@@ -41,15 +63,19 @@ class _QuizActivityState extends State<QuizActivity> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("app"),),
-       body: Column(children: <Widget>[
-        Text("Score +5"),
-
-          _index < widget.as.length
-            ? Quiz(_onPass,_index,widget.as)
-            : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
-      ],),
+    return WillPopScope(
+      onWillPop: exit,
+      child: Scaffold(
+        appBar: AppBar(title: Text("app"),
+        leading: Icon(null),
+        ),
+         body: Column(children: <Widget>[
+          Text("Score +5"),
+            _index < widget.as.length
+              ? Quiz(_onPass,_index,widget.as)
+              : Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
+        ],),
+      ),
     );
   }
 }
