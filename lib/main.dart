@@ -4,9 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
 
-
-import './quiz_data.dart';
-import './quiz_activity.dart';
+import './quiz.dart';
 
 
 main() {
@@ -96,7 +94,23 @@ class _AppState extends State<App> {
     new Future.delayed(new Duration(seconds: seconds), () {
 
       Navigator.push(context, MaterialPageRoute(builder: (context){
-        return QuizActivity(as);
+       List buttons =[
+          as[0]['correct_answer'],
+          //widget._questions[widget._index]["Answers"][0]["Score"],
+
+          as[0]['incorrect_answers'][0],
+          //widget._questions[widget._index]["Answers"][1]["Score"],
+
+          as[0]['incorrect_answers'][1],
+          // widget._questions[widget._index]["Answers"][2]["Score"],
+
+          as[0]['incorrect_answers'][2],
+          // widget._questions[widget._index]["Answers"][3]["Score"],
+
+        ];
+        buttons.shuffle();
+
+        return Quiz(as,buttons);
       }));
     }
     );
