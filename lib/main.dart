@@ -137,6 +137,18 @@ class _AppState extends State<App> {
 
 
 
+ TextEditingController textControler = TextEditingController(text: "10");
+
+     checkText(String value){
+       int convertInt=int.parse(value);
+
+       if(convertInt > 50 )
+         {
+           return "Wrong value";
+         }
+         return null;
+
+     }
 
   @override
   Widget build(BuildContext context) {
@@ -148,8 +160,26 @@ class _AppState extends State<App> {
           backgroundColor: Theme.of(context).primaryColorLight ,
         ),
         body: Column(
+
           children: <Widget>[
-            TextField(keyboardType: TextInputType.number,),
+            SizedBox(height: 40,),
+            Text("Number of Questions"),
+            SizedBox(height: 6,),
+            Padding(padding: EdgeInsets.only(left: 27,right: 14,),
+                child: TextField(keyboardType: TextInputType.number,
+               controller: textControler,
+                 decoration: InputDecoration(
+                   errorText: checkText(textControler.text),
+                   border: OutlineInputBorder(),
+                 ),
+                  ),
+              ),
+
+
+
+
+
+
 
             FlatButton(onPressed:()async{
               //_onLoading(context);
