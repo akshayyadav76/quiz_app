@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as prefix0;
+import 'package:flutter/material.dart' as http;
 import 'package:http/http.dart'as http;
 
 import './quiz.dart';
@@ -24,7 +24,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
-
   Map jsonData;
   List as;
   int seconds =3;
@@ -38,92 +37,107 @@ class _AppState extends State<App> {
        as= jsonData['results'];
        print(as);
        print(as.length);
-        return null;
+
+        return Navigator.push(context, MaterialPageRoute(builder: (context){
+       List buttons =[
+         as[0]['correct_answer'],
+         //widget._questions[widget._index]["Answers"][0]["Score"],
+
+         as[0]['incorrect_answers'][0],
+         //widget._questions[widget._index]["Answers"][1]["Score"],
+
+         as[0]['incorrect_answers'][1],
+         // widget._questions[widget._index]["Answers"][2]["Score"],
+
+         as[0]['incorrect_answers'][2],
+         // widget._questions[widget._index]["Answers"][3]["Score"],
+       ];
+       buttons.shuffle();
+       return Quiz(as,buttons);
+     }));
      }
 
-  @override
-  void initState(){
-    getdata();
-    super.initState();
-  }
 
 
-   _onLoading(BuildContext context) {
-//    showDialog(
-//      context: context,
-//      barrierDismissible: false,
-//      builder: (context){
-        print(as);
-        if(as ==null){
-        showDialog(context: context ,barrierDismissible:  false,
-        builder: (context){
-          return
-            Center(child: CircularProgressIndicator());
-        });
-        }else{
-
-
-
-          Navigator.of(context).pop();
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          List buttons =[
-            as[0]['correct_answer'],
-            //widget._questions[widget._index]["Answers"][0]["Score"],
-
-            as[0]['incorrect_answers'][0],
-            //widget._questions[widget._index]["Answers"][1]["Score"],
-
-            as[0]['incorrect_answers'][1],
-            // widget._questions[widget._index]["Answers"][2]["Score"],
-
-            as[0]['incorrect_answers'][2],
-            // widget._questions[widget._index]["Answers"][3]["Score"],
-
-          ];
-          buttons.shuffle();
-
-          return Quiz(as,buttons);
-        }));
-
-        }
-
-
-//          Dialog(
-//          child: new Row(
-//            mainAxisSize: MainAxisSize.min,
-//            children: [
-//               CircularProgressIndicator(),
-//              Text("time left $seconds"),
-//            ],
-//          ),
-//        );
-//      },
-//    );
-//    new Future.delayed(new Duration(seconds: seconds), () {
+//   _onLoading(BuildContext context) {
+////    showDialog(
+////      context: context,
+////      barrierDismissible: false,
+////      builder: (context){
+//        print(as);
+//      //  if(as ==null){
+//        showDialog(context: context ,barrierDismissible:  false,
+//        builder: (context){
+//          return
+//            Center(child: CircularProgressIndicator());
+//        });
+//        //}
+////        else{
+////
+////         // Navigator.of(context).pop();
+////
+////        Navigator.push(context, MaterialPageRoute(builder: (context){
+////          List buttons =[
+////            as[0]['correct_answer'],
+////            //widget._questions[widget._index]["Answers"][0]["Score"],
+////
+////            as[0]['incorrect_answers'][0],
+////            //widget._questions[widget._index]["Answers"][1]["Score"],
+////
+////            as[0]['incorrect_answers'][1],
+////            // widget._questions[widget._index]["Answers"][2]["Score"],
+////
+////            as[0]['incorrect_answers'][2],
+////            // widget._questions[widget._index]["Answers"][3]["Score"],
+////
+////          ];
+////          buttons.shuffle();
+////
+////          return Quiz(as,buttons);
+////        }));
+////
+////        }
 //
-//      Navigator.push(context, MaterialPageRoute(builder: (context){
-//       List buttons =[
-//          as[0]['correct_answer'],
-//          //widget._questions[widget._index]["Answers"][0]["Score"],
 //
-//          as[0]['incorrect_answers'][0],
-//          //widget._questions[widget._index]["Answers"][1]["Score"],
+////          Dialog(
+////          child: new Row(
+////            mainAxisSize: MainAxisSize.min,
+////            children: [
+////               CircularProgressIndicator(),
+////              Text("time left $seconds"),
+////            ],
+////          ),
+////        );
+////      },
+////    );
+////    new Future.delayed(new Duration(seconds: seconds), () {
+////
+////      Navigator.push(context, MaterialPageRoute(builder: (context){
+////       List buttons =[
+////          as[0]['correct_answer'],
+////          //widget._questions[widget._index]["Answers"][0]["Score"],
+////
+////          as[0]['incorrect_answers'][0],
+////          //widget._questions[widget._index]["Answers"][1]["Score"],
+////
+////          as[0]['incorrect_answers'][1],
+////          // widget._questions[widget._index]["Answers"][2]["Score"],
+////
+////          as[0]['incorrect_answers'][2],
+////          // widget._questions[widget._index]["Answers"][3]["Score"],
+////
+////        ];
+////        buttons.shuffle();
+////
+////        return Quiz(as,buttons);
+////      }));
 //
-//          as[0]['incorrect_answers'][1],
-//          // widget._questions[widget._index]["Answers"][2]["Score"],
 //
-//          as[0]['incorrect_answers'][2],
-//          // widget._questions[widget._index]["Answers"][3]["Score"],
-//
-//        ];
-//        buttons.shuffle();
-//
-//        return Quiz(as,buttons);
-//      }));
+//     }
 
 
-     }
- 
+
+
   @override
   Widget build(BuildContext context) {
    // print(as);
@@ -135,8 +149,20 @@ class _AppState extends State<App> {
         ),
         body: Column(
           children: <Widget>[
-            Text("dashboard"),
-            FlatButton(onPressed:(){_onLoading(context);}, child: Text("submit")),
+            TextField(keyboardType: TextInputType.number,),
+
+            FlatButton(onPressed:()async{
+              //_onLoading(context);
+            //if(as == null){
+              showDialog(context: context ,barrierDismissible:  false,
+                  builder: (context){
+                    return
+                      Center(child: CircularProgressIndicator());
+                  });
+              await getdata();
+           // }
+
+            }, child: Text("submit")),
           ],
         ));
   }

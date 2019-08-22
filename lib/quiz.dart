@@ -9,9 +9,6 @@ class Quiz extends StatefulWidget {
    int _index= 0;
    final List as;
    List buttons;
- //  final Function btn;
-
-   //List buttons;
 
 
   Quiz(this.as,this.buttons){
@@ -27,22 +24,10 @@ class _QuizState extends State<Quiz> {
   //List buttons;
 
    //var _index = 0;
+  bool click =true;
   _QuizState(){
     print("cccccccccccccccccccccccccccccccc");
   }
-
-
-//   void _onPass(BuildContext context, String rightAnswer,) {
-//     Future.delayed(new Duration(seconds: 2), () {
-//
-//       setState(() {
-//         widget._index = widget._index + 1;
-//         //_totalScore +=score;
-//       }
-//       );
-//     }
-//     );
-//   }
 
 
    void _reset() {
@@ -71,9 +56,12 @@ class _QuizState extends State<Quiz> {
 
 
   void btn (BuildContext context ,String answer ,int num){
+
+    setState(() {
+      click= false;
+    });
+
     String correctAnswer = widget.as[widget._index]['correct_answer'];
-
-
 
     print(answer);
     print(num);
@@ -124,6 +112,7 @@ class _QuizState extends State<Quiz> {
            four = Colors.grey;
              print(widget._index);
           widget._index = widget._index + 1;
+          click =true;
 
           print(widget._index);
 
@@ -178,25 +167,33 @@ class _QuizState extends State<Quiz> {
               Questions(widget.as[widget._index]['question']),
 
               SizedBox(height: 20,),
+
+
                  OutlineButton(child: Text(widget.buttons[0]),
                      borderSide: BorderSide( color: one,width: 6.0,style: BorderStyle.solid),
                      onPressed: (){
-                   btn(context, widget.buttons[0],1);
+                      if(click){
+                   btn(context, widget.buttons[0],1);}
                  }),
               OutlineButton(child: Text(widget.buttons[1]),
                   borderSide: BorderSide( color: two,width: 6.0,style: BorderStyle.solid),
                   onPressed: (){
-                btn(context, widget.buttons[1],2);
+                     if(click){
+                btn(context, widget.buttons[1],2);}
               }),
               OutlineButton(child: Text(widget.buttons[2]),
                   borderSide: BorderSide( color: three,width: 6.0,style: BorderStyle.solid),
                   onPressed: (){
-                btn(context, widget.buttons[2],3);
+                 if(click){
+                btn(context, widget.buttons[2],3);}
               }),OutlineButton(child: Text(widget.buttons[3]),
                   borderSide: BorderSide( color: four,width: 6.0,style: BorderStyle.solid),
                   onPressed: (){
-                btn(context, widget.buttons[3],4);
+                if(click){
+                btn(context, widget.buttons[3],4);}
               })
+
+
 //              btn(context,widget.buttons[0]),
 //              btn(context,widget.buttons[1]),
 //              btn(context,widget.buttons[2]),
