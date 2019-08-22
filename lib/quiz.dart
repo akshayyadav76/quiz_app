@@ -47,7 +47,7 @@ class _QuizState extends State<Quiz> {
 
    void _reset() {
      setState(() {
-       widget._index = 0;
+       widget._index = 1;
      });
    }
 
@@ -64,68 +64,100 @@ class _QuizState extends State<Quiz> {
      });
      return null;
    }
-  bool check = false;
+  var one = Colors.grey;
+  var two = Colors.grey;
+  var three = Colors.grey;
+  var four = Colors.grey;
 
-  Widget btn (String answer){
+
+  void btn (BuildContext context ,String answer ,int num){
     String correctAnswer = widget.as[widget._index]['correct_answer'];
-    var color = Colors.white;
 
-    return RaisedButton(
 
-        color: check ? Colors.green:Theme.of(context).primaryColor ,
-        child: Text(answer,
-            style: TextStyle(fontSize: 23.0,fontWeight: FontWeight.w600,
-            )
-        ),
-        onPressed: (){
 
-        setState(() {
-          print(check);
-          if( answer == correctAnswer){
-            check = true;
-          }
-          print(check);
-        });
+    print(answer);
+    print(num);
 
-        Future.delayed(new Duration(seconds: 2), () {
-          print(check);
-          setState(() {
-            widget._index = widget._index + 1;
-            print(check);
+        switch(num){
+          case 4: setState(() {
 
-            widget.buttons =[
-              widget.as[widget._index]['correct_answer'],
-              //widget._questions[widget._index]["Answers"][0]["Score"],
+            if (answer == correctAnswer) {
 
-              widget.as[widget._index]['incorrect_answers'][0],
-              //widget._questions[widget._index]["Answers"][1]["Score"],
+              four = Colors.green;
+            } else {
+              four = Colors.red;
 
-              widget.as[widget._index]['incorrect_answers'][1],
-              // widget._questions[widget._index]["Answers"][2]["Score"],
-
-              widget.as[widget._index]['incorrect_answers'][2],
-              // widget._questions[widget._index]["Answers"][3]["Score"],
-
-            ];
-            widget.buttons.shuffle();
-          }
-          );
+            }
+          });
+          break;
+          case 3: setState(() {
+            if (answer == correctAnswer) {
+              three= Colors.green;
+            } else {
+              three = Colors.red;
+            }
+          });
+          break;
+          case 2: setState(() {
+            if (answer == correctAnswer) {
+              two = Colors.green;
+            } else {
+              two = Colors.red;
+            }
+          });
+          break;
+          case 1: setState(() {
+            if (answer == correctAnswer) {
+              one = Colors.green;
+            } else {
+              one = Colors.red;
+            }
+          });
         }
-        );
 
-        },
-        shape:  BeveledRectangleBorder(side: BorderSide(
-          style: BorderStyle.solid,
-          color: Colors.brown,
-        ))
-    );
+      Future.delayed(new Duration(seconds: 2), () {
+        setState(() {
+
+          one = Colors.grey;
+           two = Colors.grey;
+           three = Colors.grey;
+           four = Colors.grey;
+             print(widget._index);
+          widget._index = widget._index + 1;
+
+          print(widget._index);
+
+          widget.buttons = [
+            widget.as[widget._index]['correct_answer'],
+            //widget._questions[widget._index]["Answers"][0]["Score"],
+
+            widget.as[widget._index]['incorrect_answers'][0],
+            //widget._questions[widget._index]["Answers"][1]["Score"],
+
+            widget.as[widget._index]['incorrect_answers'][1],
+            // widget._questions[widget._index]["Answers"][2]["Score"],
+
+            widget.as[widget._index]['incorrect_answers'][2],
+            // widget._questions[widget._index]["Answers"][3]["Score"],
+
+          ];
+          widget.buttons.shuffle();
+          print(widget._index);
+        }
+
+        );
+      }
+      );
+
   }
 
 
 
   @override
   Widget build(BuildContext context) {
-    print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+
+    print("bbbbbbbbbbb$four");
+
 
     return WillPopScope(
       onWillPop: exit,
@@ -136,9 +168,9 @@ class _QuizState extends State<Quiz> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text("Score +5"),
+            Text("Score +5",style: TextStyle(color: four),),
 
-            widget._index < widget.as.length
+            widget._index < widget.as.length -1
             ? Column(children: <Widget>[
 
               SizedBox(height: 20,),
@@ -146,10 +178,29 @@ class _QuizState extends State<Quiz> {
               Questions(widget.as[widget._index]['question']),
 
               SizedBox(height: 20,),
-              btn(widget.buttons[0]),
-              btn(widget.buttons[1]),
-              btn(widget.buttons[2]),
-              btn(widget.buttons[3])
+                 OutlineButton(child: Text(widget.buttons[0]),
+                     borderSide: BorderSide( color: one,width: 6.0,style: BorderStyle.solid),
+                     onPressed: (){
+                   btn(context, widget.buttons[0],1);
+                 }),
+              OutlineButton(child: Text(widget.buttons[1]),
+                  borderSide: BorderSide( color: two,width: 6.0,style: BorderStyle.solid),
+                  onPressed: (){
+                btn(context, widget.buttons[1],2);
+              }),
+              OutlineButton(child: Text(widget.buttons[2]),
+                  borderSide: BorderSide( color: three,width: 6.0,style: BorderStyle.solid),
+                  onPressed: (){
+                btn(context, widget.buttons[2],3);
+              }),OutlineButton(child: Text(widget.buttons[3]),
+                  borderSide: BorderSide( color: four,width: 6.0,style: BorderStyle.solid),
+                  onPressed: (){
+                btn(context, widget.buttons[3],4);
+              })
+//              btn(context,widget.buttons[0]),
+//              btn(context,widget.buttons[1]),
+//              btn(context,widget.buttons[2]),
+//              btn(context,widget.buttons[3])
             ],): Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
           ],),
       ),

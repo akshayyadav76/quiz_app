@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' as prefix0;
 import 'package:http/http.dart'as http;
 
 import './quiz.dart';
@@ -29,42 +30,14 @@ class _AppState extends State<App> {
   int seconds =3;
 
 
-//  List _questions = [
-//    {
-//      1: "where is Bhopal",
-//      "Answers": [
-//        {"Text": "Us", "Score": 0},
-//        {"Text": "India", "Score": 5},
-//        {"Text": "Russia", "Score": 0},
-//        {"Text": "Iserail", "Score": 0}
-//      ]
-//    },
-//    {
-//      1: "who is the president of India",
-//      "Answers": [
-//        {"Text": "Tram", "Score": 0},
-//        {"Text": "Modi", "Score": 5},
-//        {"Text": "Vlamidin Putin", "Score": 0},
-//        {"Text": "Manmohan Singh", "Score": 0}
-//      ]
-//    },
-//    {
-//      1: "whose Programming language you know most",
-//      "Answers": [
-//        {"Text": "C++", "Score": 0},
-//        {"Text": "Java", "Score": 5},
-//        {"Text": "Dart", "Score": 0},
-//        {"Text": "Python", "Score": 0}
-//      ]
-//    },
-//  ];
-
      Future<Map> getdata()async{
-     String url= "https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple";
+     String url= "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
      final response = await http.get(url);
      var jsonData= json.decode(response.body);
        print(jsonData);
        as= jsonData['results'];
+       print(as);
+       print(as.length);
         return null;
      }
 
@@ -75,46 +48,81 @@ class _AppState extends State<App> {
   }
 
 
-  void _onLoading() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context){
-        return Dialog(
-          child: new Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-               CircularProgressIndicator(),
-              Text("time left $seconds"),
-            ],
-          ),
-        );
-      },
-    );
-    new Future.delayed(new Duration(seconds: seconds), () {
+   _onLoading(BuildContext context) {
+//    showDialog(
+//      context: context,
+//      barrierDismissible: false,
+//      builder: (context){
+        print(as);
+        if(as ==null){
+        showDialog(context: context ,barrierDismissible:  false,
+        builder: (context){
+          return
+            Center(child: CircularProgressIndicator());
+        });
+        }else{
 
-      Navigator.push(context, MaterialPageRoute(builder: (context){
-       List buttons =[
-          as[0]['correct_answer'],
-          //widget._questions[widget._index]["Answers"][0]["Score"],
 
-          as[0]['incorrect_answers'][0],
-          //widget._questions[widget._index]["Answers"][1]["Score"],
 
-          as[0]['incorrect_answers'][1],
-          // widget._questions[widget._index]["Answers"][2]["Score"],
+          Navigator.of(context).pop();
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          List buttons =[
+            as[0]['correct_answer'],
+            //widget._questions[widget._index]["Answers"][0]["Score"],
 
-          as[0]['incorrect_answers'][2],
-          // widget._questions[widget._index]["Answers"][3]["Score"],
+            as[0]['incorrect_answers'][0],
+            //widget._questions[widget._index]["Answers"][1]["Score"],
 
-        ];
-        buttons.shuffle();
+            as[0]['incorrect_answers'][1],
+            // widget._questions[widget._index]["Answers"][2]["Score"],
 
-        return Quiz(as,buttons);
-      }));
-    }
-    );
-  }
+            as[0]['incorrect_answers'][2],
+            // widget._questions[widget._index]["Answers"][3]["Score"],
+
+          ];
+          buttons.shuffle();
+
+          return Quiz(as,buttons);
+        }));
+
+        }
+
+
+//          Dialog(
+//          child: new Row(
+//            mainAxisSize: MainAxisSize.min,
+//            children: [
+//               CircularProgressIndicator(),
+//              Text("time left $seconds"),
+//            ],
+//          ),
+//        );
+//      },
+//    );
+//    new Future.delayed(new Duration(seconds: seconds), () {
+//
+//      Navigator.push(context, MaterialPageRoute(builder: (context){
+//       List buttons =[
+//          as[0]['correct_answer'],
+//          //widget._questions[widget._index]["Answers"][0]["Score"],
+//
+//          as[0]['incorrect_answers'][0],
+//          //widget._questions[widget._index]["Answers"][1]["Score"],
+//
+//          as[0]['incorrect_answers'][1],
+//          // widget._questions[widget._index]["Answers"][2]["Score"],
+//
+//          as[0]['incorrect_answers'][2],
+//          // widget._questions[widget._index]["Answers"][3]["Score"],
+//
+//        ];
+//        buttons.shuffle();
+//
+//        return Quiz(as,buttons);
+//      }));
+
+
+     }
  
   @override
   Widget build(BuildContext context) {
@@ -128,7 +136,7 @@ class _AppState extends State<App> {
         body: Column(
           children: <Widget>[
             Text("dashboard"),
-            FlatButton(onPressed:_onLoading, child: Text("submit"))
+            FlatButton(onPressed:(){_onLoading(context);}, child: Text("submit")),
           ],
         ));
   }
