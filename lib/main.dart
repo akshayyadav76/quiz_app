@@ -141,14 +141,17 @@ class _AppState extends State<App> {
 
      checkText(String value){
        int convertInt=int.parse(value);
+       print(value);
 
-       if(convertInt > 50 )
+       if(convertInt < 50 )
          {
            return "Wrong value";
          }
          return null;
 
      }
+     bool validator = false;
+     GlobalKey<FormState> key=GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -166,32 +169,56 @@ class _AppState extends State<App> {
             Text("Number of Questions"),
             SizedBox(height: 6,),
             Padding(padding: EdgeInsets.only(left: 27,right: 14,),
-                child: TextField(keyboardType: TextInputType.number,
-               controller: textControler,
-                 decoration: InputDecoration(
-                   errorText: checkText(textControler.text),
-                   border: OutlineInputBorder(),
-                 ),
-                  ),
+                child:
+                Form(
+                  key: key,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: textControler,
+                    autovalidate: validator,
+                    maxLength: 2,
+                   validator: (String value){
+                     // print(int.parse(vlaue));
+                    if(value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1 ){
+                      return "Value must be less than or equal to 50";
+                    }
+                    return null;
+                   },
+                   decoration: InputDecoration(
+                     //errorText: checkText(textControler.text),
+                     border: OutlineInputBorder(),
+                   ),
+                    ),
+                ),
               ),
 
+               ListTile(
+                 title: TextField(
+                   decoration: InputDecoration(
+                    // icon: IconButton(),
+                     border: OutlineInputBorder(),
+                   ),
 
-
-
-
-
-
+                 ),
+                 trailing: IconButton(icon: Icon(Icons.ac_unit),),
+               ),
             FlatButton(onPressed:()async{
+           if(key.currentState.validate()){
+
+             showDialog(context: context ,barrierDismissible:  false,
+                 builder: (context){
+                   return
+                     Center(child: CircularProgressIndicator());
+                 });
+           }else{
+              setState(() {
+                validator = true;
+              });}
               //_onLoading(context);
             //if(as == null){
-              showDialog(context: context ,barrierDismissible:  false,
-                  builder: (context){
-                    return
-                      Center(child: CircularProgressIndicator());
-                  });
+
               await getdata();
            // }
-
             }, child: Text("submit")),
           ],
         ));
