@@ -146,6 +146,10 @@ class _AppState extends State<App> {
   bool validator = false;
   GlobalKey<FormState> key = GlobalKey();
 
+  void show(){
+    alert=Ale
+  }
+
   @override
   Widget build(BuildContext context) {
     // print(as);
@@ -195,14 +199,16 @@ class _AppState extends State<App> {
               ),
               Padding(
                 padding: EdgeInsets.only(left: 29,right: 16),
-                child: TextField(
+                child: TextFormField(
+                  initialValue: "any value",
+                  enabled: false,
                   decoration: InputDecoration(
                   suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),),
                     border: OutlineInputBorder(),
                   ),
                 ),
-
               ),
+
               FlatButton(
                   onPressed: () async {
                     if (key.currentState.validate()) {
