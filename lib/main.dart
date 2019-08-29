@@ -147,7 +147,32 @@ class _AppState extends State<App> {
   GlobalKey<FormState> key = GlobalKey();
 
   void show(){
-    alert=Ale
+    final screenSize = MediaQuery.of(context).size;
+   var alert=Container(
+       width:  screenSize.width / 2,
+       child:
+   AlertDialog(
+
+     content: Column(
+       children: <Widget>[
+         Text("ssfef"),
+         Text("ssfef"),
+         ListTile(title: Text("akshesafdadsaasfsafafafafasfay"),
+         leading: Icon(Icons.print),),
+         Text("ssfef"),
+         Text("ssfef"),
+         Text("ssfef"),
+         Text("ssfef"),
+         Text("ssfef"),
+         Text("ssfef"),
+         Text("ssfef"),
+       ],
+     ),
+   ));
+
+   showDialog(context: context,builder: (context){
+     return alert;
+   });
   }
 
   @override
@@ -197,17 +222,24 @@ class _AppState extends State<App> {
                   ),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 29,right: 16),
-                child: TextFormField(
-                  initialValue: "any value",
-                  enabled: false,
-                  decoration: InputDecoration(
-                  suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),),
-                    border: OutlineInputBorder(),
+               Padding(
+                  padding: EdgeInsets.only(left: 29,right: 16),
+                  child: GestureDetector(
+                    onTap: show,
+                    behavior:  HitTestBehavior.translucent,
+                    child: TextFormField(
+                      initialValue: "any value",
+                      enabled: false,
+                      decoration: InputDecoration(
+                      suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
+                        print("sseee");
+                      }),
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+
 
               FlatButton(
                   onPressed: () async {
@@ -230,6 +262,7 @@ class _AppState extends State<App> {
                     // }
                   },
                   child: Text("submit")),
+              RaisedButton(child: Text("ss",),onPressed: show,),
             ],
           ),
         ));
