@@ -6,6 +6,7 @@ import 'package:flutter/material.dart' as http;
 import 'package:http/http.dart' as http;
 
 import './quiz.dart';
+import './dilaog.dart';
 
 main() {
   runApp(MaterialApp(
@@ -25,10 +26,11 @@ class _AppState extends State<App> {
   Map jsonData;
   List as;
   int seconds = 3;
+  int Category =9;
 
   Future<Map> getdata() async {
     String url =
-        "https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=multiple";
+        "https://opentdb.com/api.php?amount=10&category=$Category&difficulty=easy&type=multiple";
     final response = await http.get(url);
     var jsonData = json.decode(response.body);
     print(jsonData);
@@ -146,38 +148,30 @@ class _AppState extends State<App> {
   bool validator = false;
   GlobalKey<FormState> key = GlobalKey();
 
-  void show(){
-    final screenSize = MediaQuery.of(context).size;
-   var alert=Container(
-       width:  screenSize.width / 2,
-       child:
-   AlertDialog(
 
-     content: Column(
-       children: <Widget>[
-         Text("ssfef"),
-         Text("ssfef"),
-         ListTile(title: Text("akshesafdadsaasfsafafafafasfay"),
-         leading: Icon(Icons.print),),
-         Text("ssfef"),
-         Text("ssfef"),
-         Text("ssfef"),
-         Text("ssfef"),
-         Text("ssfef"),
-         Text("ssfef"),
-         Text("ssfef"),
-       ],
-     ),
-   ));
+   int groupValue=0;
 
-   showDialog(context: context,builder: (context){
-     return alert;
-   });
+
+
+
+//  void show(){
+//    var alert=
+//
+//    showDialog(context: context,
+//        builder: (context){
+//          return alert;
+//        });
+//  }
+
+  void onSubmit(int result) {
+    setState(() {
+      Category=result;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print(as);
+     print(groupValue);
     return Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
@@ -222,10 +216,16 @@ class _AppState extends State<App> {
                   ),
                 ),
               ),
+              Text("Select Category"),
                Padding(
                   padding: EdgeInsets.only(left: 29,right: 16),
                   child: GestureDetector(
-                    onTap: show,
+                    onTap:(){
+                      showDialog(context: context,
+                          builder: (context){
+                            return Dilaog(onSubmit);
+                          });
+                    },
                     behavior:  HitTestBehavior.translucent,
                     child: TextFormField(
                       initialValue: "any value",
@@ -262,7 +262,7 @@ class _AppState extends State<App> {
                     // }
                   },
                   child: Text("submit")),
-              RaisedButton(child: Text("ss",),onPressed: show,),
+
             ],
           ),
         ));
