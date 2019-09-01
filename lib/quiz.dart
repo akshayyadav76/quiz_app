@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import './answer.dart';
 import './questions.dart';
+import './main.dart';
 
 class Quiz extends StatefulWidget {
    //final Function _onPass;
@@ -41,7 +42,12 @@ class _QuizState extends State<Quiz> {
      var alert = AlertDialog(content: Text("Do You Want To Exti?"),
        actions: <Widget>[
          OutlineButton(child: Text("Ok"),onPressed: (){SystemNavigator.pop();},),
-         OutlineButton(child: Text("Cancle"),onPressed: (){Navigator.of(context).pop();},)
+         OutlineButton(child: Text("Cancle"),onPressed: (){Navigator.of(context).pop();},),
+         OutlineButton(child: Text("Reset"),onPressed: (){
+           Navigator.of(context).push(MaterialPageRoute(builder: (context){
+             return App();
+           }));
+         },)
        ],);
 
      showDialog(context: context,builder: (context){

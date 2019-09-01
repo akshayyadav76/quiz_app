@@ -26,6 +26,7 @@ class _AppState extends State<App> {
   Map jsonData;
   List as;
   int seconds = 3;
+  static int amount= textControler.value;
   static int Category = 9;
   String url =
       "https://opentdb.com/api.php?amount=10&category=$Category&difficulty=easy&type=multiple";
@@ -133,7 +134,7 @@ class _AppState extends State<App> {
 //
 //     }
 
-  TextEditingController textControler = TextEditingController(text: "10");
+  TextEditingController textControler = TextEditingController();
 
   checkText(String value) {
     int convertInt = int.parse(value);
@@ -160,8 +161,9 @@ class _AppState extends State<App> {
 
 //   @override
 //  void setState(fn) {
+//
 //    switch(Category){
-//      case 8:
+//      case 8: url = "https://opentdb.com/api.php?amount=10";
 //    }
 //    super.setState(fn);
 //  }
@@ -169,6 +171,7 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
+
      print(groupValue);
     return Scaffold(
         appBar: AppBar(
