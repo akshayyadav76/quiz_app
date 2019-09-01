@@ -26,11 +26,11 @@ class _AppState extends State<App> {
   Map jsonData;
   List as;
   int seconds = 3;
-  int Category =9;
-
+  static int Category = 9;
+  String url =
+      "https://opentdb.com/api.php?amount=10&category=$Category&difficulty=easy&type=multiple";
   Future<Map> getdata() async {
-    String url =
-        "https://opentdb.com/api.php?amount=10&category=$Category&difficulty=easy&type=multiple";
+
     final response = await http.get(url);
     var jsonData = json.decode(response.body);
     print(jsonData);
@@ -152,22 +152,20 @@ class _AppState extends State<App> {
    int groupValue=0;
 
 
-
-
-//  void show(){
-//    var alert=
-//
-//    showDialog(context: context,
-//        builder: (context){
-//          return alert;
-//        });
-//  }
-
   void onSubmit(int result) {
     setState(() {
       Category=result;
     });
   }
+
+//   @override
+//  void setState(fn) {
+//    switch(Category){
+//      case 8:
+//    }
+//    super.setState(fn);
+//  }
+
 
   @override
   Widget build(BuildContext context) {
