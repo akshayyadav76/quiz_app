@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart' as http;
 import 'package:http/http.dart' as http;
 
 import './quiz.dart';
@@ -26,10 +25,10 @@ class _AppState extends State<App> {
   Map jsonData;
   List as;
   int seconds = 3;
-  static int amount= textControler.value;
+  static int amount=  int.parse(textControler.text);
   static int Category = 9;
   String url =
-      "https://opentdb.com/api.php?amount=10&category=$Category&difficulty=easy&type=multiple";
+      "https://opentdb.com/api.php?amount=$amount&category=$Category&difficulty=easy&type=multiple";
   Future<Map> getdata() async {
 
     final response = await http.get(url);
@@ -134,7 +133,8 @@ class _AppState extends State<App> {
 //
 //     }
 
-  TextEditingController textControler = TextEditingController();
+ static TextEditingController textControler = TextEditingController(text: "10");
+
 
   checkText(String value) {
     int convertInt = int.parse(value);
@@ -200,15 +200,18 @@ class _AppState extends State<App> {
                     keyboardType: TextInputType.number,
                     controller: textControler,
                     autovalidate: validator,
+
+
                     maxLength: 2,
                     validator: (String value) {
-                      // print(int.parse(vlaue));
-                      if (value.isEmpty ||
-                          int.parse(value) > 50 ||
-                          int.parse(value) < 1) {
+                       //print(int.parse(value));
+
+                 if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
                         return "Value must be less than or equal to 50";
+                      }else{
+                   return null;
                       }
-                      return null;
+
                     },
                     decoration: InputDecoration(
                       //errorText: checkText(textControler.text),
@@ -244,7 +247,9 @@ class _AppState extends State<App> {
 
               FlatButton(
                   onPressed: () async {
+
                     if (key.currentState.validate()) {
+                      await getdata();
                       showDialog(
                           context: context,
                           barrierDismissible: false,
@@ -259,7 +264,7 @@ class _AppState extends State<App> {
                     //_onLoading(context);
                     //if(as == null){
 
-                    await getdata();
+
                     // }
                   },
                   child: Text("submit")),
