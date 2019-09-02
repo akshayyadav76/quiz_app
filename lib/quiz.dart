@@ -13,7 +13,7 @@ class Quiz extends StatefulWidget {
 
 
   Quiz(this.as,this.buttons){
-
+           print("list quiz ${as.length}");
     print("sssssssssssssssssssssssssss");
    }
 
@@ -44,6 +44,7 @@ class _QuizState extends State<Quiz> {
          OutlineButton(child: Text("Ok"),onPressed: (){SystemNavigator.pop();},),
          OutlineButton(child: Text("Cancle"),onPressed: (){Navigator.of(context).pop();},),
          OutlineButton(child: Text("Reset"),onPressed: (){
+
            Navigator.of(context).push(MaterialPageRoute(builder: (context){
              return App();
            }));

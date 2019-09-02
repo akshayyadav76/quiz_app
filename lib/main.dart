@@ -25,11 +25,16 @@ class _AppState extends State<App> {
   Map jsonData;
   List as;
   int seconds = 3;
-  static int amount=  int.parse(textControler.text);
+  static int amount;
   static int Category = 9;
-  String url =
-      "https://opentdb.com/api.php?amount=$amount&category=$Category&difficulty=easy&type=multiple";
+
+
   Future<Map> getdata() async {
+      amount=  int.parse(textControler.text);
+      print("amount of lsit $amount");
+      String url =
+          "https://opentdb.com/api.php?amount=$amount&category=$Category&difficulty=easy&type=multiple";
+      print(url);
 
     final response = await http.get(url);
     var jsonData = json.decode(response.body);
@@ -134,6 +139,9 @@ class _AppState extends State<App> {
 //     }
 
  static TextEditingController textControler = TextEditingController(text: "10");
+  var categoryController=TextEditingController(text: "Any Value");
+
+
 
 
   checkText(String value) {
@@ -156,18 +164,32 @@ class _AppState extends State<App> {
   void onSubmit(int result) {
     setState(() {
       Category=result;
+           print("value of alert $Category");
+
+
     });
   }
 
-//   @override
-//  void setState(fn) {
-//
-//    switch(Category){
-//      case 8: url = "https://opentdb.com/api.php?amount=10";
-//    }
-//    super.setState(fn);
-//  }
+   @override
+  void setState(fn) {
+     switch(Category){
+       case 8: String url = "https://opentdb.com/api.php?amount=10";
+       break;
+       case 9:{
+           categoryController.text="General Knowledge";
+           //print(categoryName);
+       }
+     }
 
+    super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    textControler.clear();
+    amount;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +222,8 @@ class _AppState extends State<App> {
                     keyboardType: TextInputType.number,
                     controller: textControler,
                     autovalidate: validator,
-
-
                     maxLength: 2,
                     validator: (String value) {
-                       //print(int.parse(value));
 
                  if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
                         return "Value must be less than or equal to 50";
@@ -232,7 +251,8 @@ class _AppState extends State<App> {
                     },
                     behavior:  HitTestBehavior.translucent,
                     child: TextFormField(
-                      initialValue: "any value",
+
+                     controller: categoryController,
                       enabled: false,
                       decoration: InputDecoration(
                       suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
@@ -247,15 +267,14 @@ class _AppState extends State<App> {
 
               FlatButton(
                   onPressed: () async {
-
                     if (key.currentState.validate()) {
-                      await getdata();
                       showDialog(
                           context: context,
                           barrierDismissible: false,
                           builder: (context) {
                             return Center(child: CircularProgressIndicator());
                           });
+                      await getdata();
                     } else {
                       setState(() {
                         validator = true;
@@ -263,10 +282,8 @@ class _AppState extends State<App> {
                     }
                     //_onLoading(context);
                     //if(as == null){
-
-
                     // }
-                  },
+                    },
                   child: Text("submit")),
 
             ],
