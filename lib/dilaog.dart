@@ -41,7 +41,7 @@ class _DilaogState extends State<Dilaog> {
           children: <Widget>[
             ListTile(
               title: Text("Any Category"),
-              trailing: Radio<int>(value: 8, groupValue: groupValue, onChanged: radioOnTap),
+              trailing: Radio<int>(value: null, groupValue: groupValue, onChanged: radioOnTap),
             ),Divider(),
             ListTile(
               title: Text("General Knowledge"),
@@ -186,7 +186,7 @@ class _Dilog2State extends State<Dilog2> {
           children: <Widget>[
             ListTile(
               title: Text("Any Difficulty"),
-              trailing: Radio<String>(value: "", groupValue: groupValue, onChanged: radioOnTap),
+              trailing: Radio<String>(value: "8", groupValue: groupValue, onChanged: radioOnTap),
             ),Divider(),
             ListTile(
               title: Text("Esay"),

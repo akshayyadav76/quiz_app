@@ -2,15 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:http/http.dart' as http;
+import 'package:data_connection_checker/data_connection_checker.dart';
 
 import './quiz.dart';
 import './dilaog.dart';
 
 main() {
   runApp(MaterialApp(
-    theme: ThemeData(primaryColor: Colors.white
-        ),
+    debugShowCheckedModeBanner: false,
+
     home: App(),
   ));
 }
@@ -26,8 +28,8 @@ class _AppState extends State<App> {
   List as;
   int seconds = 3;
   static int amount;
-   int category = 8;
-   String difficulty= "";
+   int category;
+   String difficulty;
   bool validator = false;
   int groupValue=0;
   GlobalKey<FormState> key = GlobalKey();
@@ -37,14 +39,43 @@ class _AppState extends State<App> {
 
 
   Future<Map> getData() async {
-      amount=  int.parse(textControler.text);
-      print("amount of lsit $amount");
-      String url =
-          "https://opentdb.com/api.php?amount=$amount&category=$category&difficulty=$difficulty&type=multiple";
-      print(url);
+    bool result = await DataConnectionChecker().hasConnection;
+    if(result == true) {
+      print('YAY! Free cute dog pics!');
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return Center(child: CircularProgressIndicator());
+          });
 
+      amount=  int.parse(textControler.text);
+      String url;
+      if(category== null && difficulty ==null)
+        {
+         url= "https://opentdb.com/api.php?amount=$amount&type=multiple";
+        }else if(difficulty==null){
+        url =
+        "https://opentdb.com/api.php?amount=$amount&category=$category&type=multiple";
+      }else if(category ==null)
+        {
+         url= "https://opentdb.com/api.php?amount=$amount&difficulty=$difficulty&type=multiple";
+        }else{
+        url =
+        "https://opentdb.com/api.php?amount=$amount&category=$category&difficulty=$difficulty&type=multiple";
+      }
+
+      print(url);
     final response = await http.get(url);
     var jsonData = json.decode(response.body);
+
+//    String sf=base64Encode(response.body);
+//   Uint8List byts=base64Decode(response.body);
+
+//    var se=utf8.encode(response.body);
+//    var sdf= utf8.decoder();
+//    print(sdf);
+
     print(jsonData);
     as = jsonData['results'];
     print(as);
@@ -60,13 +91,25 @@ class _AppState extends State<App> {
       buttons.shuffle();
       return Quiz(as, buttons);
     }));
+  }else {
+      return showDialog(context: context,barrierDismissible: false,builder: (context){
+        return AlertDialog(content: Text("NO Data Connecnton"),
+        actions: <Widget>[
+          OutlineButton(child: Text("Ok"),onPressed:(){
+            Navigator.of(context).pop();
+          } )
+        ],);
+
+      });
+    }
+
   }
 
 void onSubmit2(String result2){
   setState(() {
     difficulty = result2;
     switch(difficulty){
-      case "sd": difficultyController.text="any Dificulty";
+      case "8": difficultyController.text="any Dificulty";
       break;
       case "easy": difficultyController.text="Easy";
       break;
@@ -83,7 +126,7 @@ void onSubmit2(String result2){
       category=result;
            print("value of alert $category");
       switch(category){
-        case 8: String url = "https://opentdb.com/api.php?amount=10";
+        case 8: categoryController.text="Any Category";
         break;
         case 9:categoryController.text="General Knowledge";
         break;
@@ -146,10 +189,15 @@ void onSubmit2(String result2){
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        //backgroundColor: Colors.white,
+        drawer: Drawer( ),
         appBar: AppBar(
-          title: Text("Quiz App"),
+
+          backgroundColor: Colors.white,
+             shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
+          title: Text("Quiz App",style: TextStyle(color: Colors.black),),
           centerTitle: true,
-          backgroundColor: Theme.of(context).primaryColorLight,
+          //backgroundColor: Colors.white,
         ),
         body:SingleChildScrollView(
           child: Column(
@@ -235,17 +283,14 @@ void onSubmit2(String result2){
               ),
 
             SizedBox(height: 20,),
+
             OutlineButton(
                     onPressed: () async {
                       if (key.currentState.validate()) {
-                        showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (context) {
-                              return Center(child: CircularProgressIndicator());
-                            });
+
                         await getData();
-                      } else {
+                      }
+                      else {
                         setState(() {
                           validator = true;
                         });
