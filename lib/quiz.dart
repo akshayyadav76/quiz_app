@@ -1,35 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import './answer.dart';
-import './questions.dart';
 import './main.dart';
 
 class Quiz extends StatefulWidget {
-   //final Function _onPass;
+
    int _index= 0;
    final List as;
    List buttons;
 
-
   Quiz(this.as,this.buttons){
-           print("list quiz ${as.length}");
+    print("list quiz ${as.length}");
     print("sssssssssssssssssssssssssss");
    }
 
   @override
-  _QuizState createState(){print("aaaaaaaaaaaaaaaaaaaaa");return _QuizState();}
+  _QuizState createState(){
+    print("aaaaaaaaaaaaaaaaaaaaa");return _QuizState();}
 }
 
 class _QuizState extends State<Quiz> {
-  //List buttons;
 
-   //var _index = 0;
   bool click =true;
+
   _QuizState(){
     print("cccccccccccccccccccccccccccccccc");
   }
-
 
    void _reset() {
      setState(() {
@@ -38,7 +34,6 @@ class _QuizState extends State<Quiz> {
    }
 
    Future<bool> exit() async {
-
      var alert = AlertDialog(content: Text("Do You Want To Exti?"),
        actions: <Widget>[
          OutlineButton(child: Text("Ok"),onPressed: (){SystemNavigator.pop();},),
@@ -56,6 +51,8 @@ class _QuizState extends State<Quiz> {
      });
      return null;
    }
+
+
   var one = Colors.grey;
   var two = Colors.grey;
   var three = Colors.grey;
@@ -63,7 +60,6 @@ class _QuizState extends State<Quiz> {
 
 
   void btn (BuildContext context ,String answer ,int num){
-
     setState(() {
       click= false;
     });
@@ -202,12 +198,6 @@ class _QuizState extends State<Quiz> {
                 if(click){
                 btn(context, widget.buttons[3],4);}
               })
-
-
-//              btn(context,widget.buttons[0]),
-//              btn(context,widget.buttons[1]),
-//              btn(context,widget.buttons[2]),
-//              btn(context,widget.buttons[3])
             ],): Center(child: RaisedButton( child:Text("restart the game") , onPressed: _reset),),
           ],),
       ),

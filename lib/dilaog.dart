@@ -38,7 +38,6 @@ class _DilaogState extends State<Dilaog> {
       padding: EdgeInsets.only(top:57,left: 5,right: 5),
       child: Card(
         child: Column(
-
           children: <Widget>[
             ListTile(
               title: Text("Any Category"),

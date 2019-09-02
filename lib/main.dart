@@ -10,7 +10,6 @@ import './dilaog.dart';
 main() {
   runApp(MaterialApp(
     theme: ThemeData(primaryColor: Colors.white
-        // primarySwatch: Colors.lightGreen
         ),
     home: App(),
   ));
@@ -22,15 +21,22 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> {
+
   Map jsonData;
   List as;
   int seconds = 3;
   static int amount;
    int category = 8;
-       String difficulty= "";
+   String difficulty= "";
+  bool validator = false;
+  int groupValue=0;
+  GlobalKey<FormState> key = GlobalKey();
+  static TextEditingController textControler = TextEditingController(text: "10");
+  var categoryController=TextEditingController(text: "Any Value");
+  var difficultyController=TextEditingController(text: "Any Value");
 
 
-  Future<Map> getdata() async {
+  Future<Map> getData() async {
       amount=  int.parse(textControler.text);
       print("amount of lsit $amount");
       String url =
@@ -47,126 +53,18 @@ class _AppState extends State<App> {
     return Navigator.push(context, MaterialPageRoute(builder: (context) {
       List buttons = [
         as[0]['correct_answer'],
-        //widget._questions[widget._index]["Answers"][0]["Score"],
-
         as[0]['incorrect_answers'][0],
-        //widget._questions[widget._index]["Answers"][1]["Score"],
-
         as[0]['incorrect_answers'][1],
-        // widget._questions[widget._index]["Answers"][2]["Score"],
-
         as[0]['incorrect_answers'][2],
-        // widget._questions[widget._index]["Answers"][3]["Score"],
       ];
       buttons.shuffle();
       return Quiz(as, buttons);
     }));
   }
 
-//   _onLoading(BuildContext context) {
-////    showDialog(
-////      context: context,
-////      barrierDismissible: false,
-////      builder: (context){
-//        print(as);
-//      //  if(as ==null){
-//        showDialog(context: context ,barrierDismissible:  false,
-//        builder: (context){
-//          return
-//            Center(child: CircularProgressIndicator());
-//        });
-//        //}
-////        else{
-////
-////         // Navigator.of(context).pop();
-////
-////        Navigator.push(context, MaterialPageRoute(builder: (context){
-////          List buttons =[
-////            as[0]['correct_answer'],
-////            //widget._questions[widget._index]["Answers"][0]["Score"],
-////
-////            as[0]['incorrect_answers'][0],
-////            //widget._questions[widget._index]["Answers"][1]["Score"],
-////
-////            as[0]['incorrect_answers'][1],
-////            // widget._questions[widget._index]["Answers"][2]["Score"],
-////
-////            as[0]['incorrect_answers'][2],
-////            // widget._questions[widget._index]["Answers"][3]["Score"],
-////
-////          ];
-////          buttons.shuffle();
-////
-////          return Quiz(as,buttons);
-////        }));
-////
-////        }
-//
-//
-////          Dialog(
-////          child: new Row(
-////            mainAxisSize: MainAxisSize.min,
-////            children: [
-////               CircularProgressIndicator(),
-////              Text("time left $seconds"),
-////            ],
-////          ),
-////        );
-////      },
-////    );
-////    new Future.delayed(new Duration(seconds: seconds), () {
-////
-////      Navigator.push(context, MaterialPageRoute(builder: (context){
-////       List buttons =[
-////          as[0]['correct_answer'],
-////          //widget._questions[widget._index]["Answers"][0]["Score"],
-////
-////          as[0]['incorrect_answers'][0],
-////          //widget._questions[widget._index]["Answers"][1]["Score"],
-////
-////          as[0]['incorrect_answers'][1],
-////          // widget._questions[widget._index]["Answers"][2]["Score"],
-////
-////          as[0]['incorrect_answers'][2],
-////          // widget._questions[widget._index]["Answers"][3]["Score"],
-////
-////        ];
-////        buttons.shuffle();
-////
-////        return Quiz(as,buttons);
-////      }));
-//
-//
-//     }
-
- static TextEditingController textControler = TextEditingController(text: "10");
-  var categoryController=TextEditingController(text: "Any Value");
-  var difficultyController=TextEditingController(text: "Any Value");
-
-
-
-
-  checkText(String value) {
-    int convertInt = int.parse(value);
-    print(value);
-
-    if (convertInt < 50) {
-      return "Wrong value";
-    }
-    return null;
-  }
-
-  bool validator = false;
-  GlobalKey<FormState> key = GlobalKey();
-
-
-   int groupValue=0;
-
 void onSubmit2(String result2){
   setState(() {
-
     difficulty = result2;
-
     switch(difficulty){
       case "sd": difficultyController.text="any Dificulty";
       break;
@@ -178,7 +76,6 @@ void onSubmit2(String result2){
       break;
     }
   });
-
 }
 
   void onSubmit(BuildContext context,int result) {
@@ -240,18 +137,14 @@ void onSubmit2(String result2){
     });
   }
 
-
   @override
   void dispose() {
     textControler.clear();
-    amount;
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-
-     print(groupValue);
     return Scaffold(
         appBar: AppBar(
           title: Text("Quiz App"),
@@ -281,16 +174,13 @@ void onSubmit2(String result2){
                     autovalidate: validator,
                     maxLength: 2,
                     validator: (String value) {
-
                  if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
                         return "Value must be less than or equal to 50";
                       }else{
                    return null;
                       }
-
                     },
                     decoration: InputDecoration(
-                      //errorText: checkText(textControler.text),
                       border: OutlineInputBorder(),
                     ),
                   ),
@@ -354,19 +244,13 @@ void onSubmit2(String result2){
                             builder: (context) {
                               return Center(child: CircularProgressIndicator());
                             });
-                        await getdata();
+                        await getData();
                       } else {
                         setState(() {
                           validator = true;
                         });
-                      }
-                      //_onLoading(context);
-                      //if(as == null){
-                      // }
-                      },
+                      }},
                     child: Text("submit")),
-
-
             ],
           ),
         ));
