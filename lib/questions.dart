@@ -7,9 +7,6 @@ class Questions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(ques,
-        style: TextStyle(
-        fontWeight:FontWeight.w600 ,
-        fontSize: 30.0),textAlign: TextAlign.center,);
+    return
   }
 }

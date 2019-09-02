@@ -171,7 +171,10 @@ class _QuizState extends State<Quiz> {
 
               SizedBox(height: 20,),
 
-              Questions(widget.as[widget._index]['question']),
+        Text(widget.as[widget._index]['question'],
+          style: TextStyle(
+              fontWeight:FontWeight.w600 ,
+              fontSize: 30.0),textAlign: TextAlign.center,),
 
               SizedBox(height: 20,),
 
