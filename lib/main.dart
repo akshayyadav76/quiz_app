@@ -5,15 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './quiz.dart';
 import './dilaog.dart';
+
+
+
 
 main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
  theme: ThemeData(
       primaryColor: Colors.white,
+    //brightness: Brightness.dark
 
 
  ),
@@ -192,57 +197,89 @@ void onSubmit2(String result2){
     super.dispose();
   }
 
-  @override
-  Widget builds(BuildContext context){
-    return Drawer();
+
+  void dv(){
+    setState(() {
+      _scaffoldKey.currentState.openDrawer();
+    });
   }
 
-  Widget darwoe(BuildContext context){
-    print("serfefsaefs");
-    return  UserAccountsDrawerHeader(
-      accountName: Text("Ashish Rawat"),
-      accountEmail: Text("ashishrawat2911@gmail.com"),
-      currentAccountPicture: CircleAvatar(
-        backgroundColor:
-        Theme.of(context).platform == TargetPlatform.iOS
-            ? Colors.blue
-            : Colors.white,
-        child: Text(
-          "A",
-          style: TextStyle(fontSize: 40.0),
-        ),
-      ),
-    );
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  var bar=AppBar(
+    shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
+    title: Text("Quiz App",style: TextStyle(color: Colors.black),),
+    centerTitle: true,
+
+  );
+
+
+  _launch()async {
+    const url = 'https://flutter.dev';
+    if (await canLaunch(url)) {
+      await launch(url,);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        //drawer: IconButton(icon: Icon(Icons.check), onPressed: (){}),
-        drawer: darwoe(context),
-        appBar: AppBar(
+      drawer: Drawer(
+        child: Column(children: <Widget>[
+          UserAccountsDrawerHeader(accountName: Text("Quiz App"),decoration: BoxDecoration(
+            color: Colors.purpleAccent
+          ),),
+         ListTile(title: Text("Source Code"),trailing: Icon(Icons.code),
+         onTap: _launch
+         ),
+          ListTile(title: Text("More Apps On Google Play"),trailing: Icon(Icons.code),
+            onTap: (){},),
+          
 
-
-             shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
-          title: Text("Quiz App",style: TextStyle(color: Colors.black),),
-          centerTitle: true,
-          //backgroundColor: Colors.white,
+          
+        ],
         ),
+      ),
+      key: _scaffoldKey,
+        backgroundColor: Theme.of(context).primaryColor,
         body:SingleChildScrollView(
           child: Column(
             children: <Widget>[
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+               children: <Widget>[
 
-            Container(
-            child: OutlineButton(
-              shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
-           onPressed: (){
-             builds(context);
-           }
-            ),
+                 IconButton(padding: EdgeInsets.only(top: 15,left: 5),
+                     icon: Icon(Icons.dehaze), onPressed: dv
+                     ),
+               
+                Card(
+                   elevation: 3,
+                   shape: CircleBorder(side: BorderSide(style:BorderStyle.none,),),
+                   child: Container(
+                     height: 70,
+                     width: 90,
+                     alignment: Alignment.center,
+                     margin: EdgeInsets.only(top: 10),
+                     child: Text("Quiz App",style: TextStyle(color: Colors.black,fontSize: 20), ),
+                   ),
+                 ),
 
-            ),
+                 Container(
+                   //color: Colors.red,
+                      height: 70,
+                     width: 60,
+                   ),
+
+                 
+             ],),
+
+
 
               SizedBox(
                 height: 40,
