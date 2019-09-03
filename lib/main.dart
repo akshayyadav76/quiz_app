@@ -12,8 +12,14 @@ import './dilaog.dart';
 main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+ theme: ThemeData(
+      primaryColor: Colors.white,
 
-    home: App(),
+
+ ),
+    home: App(
+
+    ),
   ));
 }
 
@@ -187,13 +193,38 @@ void onSubmit2(String result2){
   }
 
   @override
+  Widget builds(BuildContext context){
+    return Drawer();
+  }
+
+  Widget darwoe(BuildContext context){
+    print("serfefsaefs");
+    return  UserAccountsDrawerHeader(
+      accountName: Text("Ashish Rawat"),
+      accountEmail: Text("ashishrawat2911@gmail.com"),
+      currentAccountPicture: CircleAvatar(
+        backgroundColor:
+        Theme.of(context).platform == TargetPlatform.iOS
+            ? Colors.blue
+            : Colors.white,
+        child: Text(
+          "A",
+          style: TextStyle(fontSize: 40.0),
+        ),
+      ),
+    );
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //backgroundColor: Colors.white,
-        drawer: Drawer( ),
+        backgroundColor: Theme.of(context).primaryColor,
+        //drawer: IconButton(icon: Icon(Icons.check), onPressed: (){}),
+        drawer: darwoe(context),
         appBar: AppBar(
 
-          backgroundColor: Colors.white,
+
              shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
           title: Text("Quiz App",style: TextStyle(color: Colors.black),),
           centerTitle: true,
@@ -202,6 +233,17 @@ void onSubmit2(String result2){
         body:SingleChildScrollView(
           child: Column(
             children: <Widget>[
+
+            Container(
+            child: OutlineButton(
+              shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
+           onPressed: (){
+             builds(context);
+           }
+            ),
+
+            ),
+
               SizedBox(
                 height: 40,
               ),
@@ -285,6 +327,8 @@ void onSubmit2(String result2){
             SizedBox(height: 20,),
 
             OutlineButton(
+              borderSide: BorderSide(width: 1),
+              color: Colors.white,
                     onPressed: () async {
                       if (key.currentState.validate()) {
 
