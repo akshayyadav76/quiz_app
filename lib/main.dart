@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import './quiz.dart';
 import './dilaog.dart';
@@ -64,7 +63,7 @@ class _AppState extends State<App> {
       String url;
       if(category== null && difficulty ==null)
         {
-         url= "https://opentdb.com/api.php?amount=$amount&type=multiple";
+         url= "https://opentdb.com/api.php?amount=$amount&type=multiple&encode=base64";
         }else if(difficulty==null){
         url =
         "https://opentdb.com/api.php?amount=$amount&category=$category&type=multiple";
@@ -80,17 +79,9 @@ class _AppState extends State<App> {
     final response = await http.get(url);
     var jsonData = json.decode(response.body);
 
-//    String sf=base64Encode(response.body);
-//   Uint8List byts=base64Decode(response.body);
-
-//    var se=utf8.encode(response.body);
-//    var sdf= utf8.decoder();
-//    print(sdf);
-
-    print(jsonData);
     as = jsonData['results'];
-    print(as);
-    print(as.length);
+    print("as data form main $as                  ");
+    print("as length form main ${as.length}             ");
 
     return Navigator.push(context, MaterialPageRoute(builder: (context) {
       List buttons = [
@@ -113,7 +104,6 @@ class _AppState extends State<App> {
 
       });
     }
-
   }
 
 void onSubmit2(String result2){
@@ -215,14 +205,19 @@ void onSubmit2(String result2){
   );
 
 
-  _launch()async {
-    const url = 'https://flutter.dev';
-    if (await canLaunch(url)) {
-      await launch(url,);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+//  _launch()async {
+//    const url = 'https://flutter.dev';
+//    if (await canLaunch(url)) {
+//      await launch(url,);
+//    } else {
+//      throw 'Could not launch $url';
+//    }
+//  }
+
+  var fontStyle =TextStyle(
+      fontFamily: "OleoScript",
+      fontSize: 20
+  );
 
 
   @override
@@ -231,11 +226,12 @@ void onSubmit2(String result2){
     return Scaffold(
       drawer: Drawer(
         child: Column(children: <Widget>[
+
           UserAccountsDrawerHeader(accountName: Text("Quiz App"),decoration: BoxDecoration(
             color: Colors.purpleAccent
           ),),
          ListTile(title: Text("Source Code"),trailing: Icon(Icons.code),
-         onTap: _launch
+         onTap: (){}
          ),
           ListTile(title: Text("More Apps On Google Play"),trailing: Icon(Icons.code),
             onTap: (){},),
@@ -266,7 +262,7 @@ void onSubmit2(String result2){
                      width: 90,
                      alignment: Alignment.center,
                      margin: EdgeInsets.only(top: 10),
-                     child: Text("Quiz App",style: TextStyle(color: Colors.black,fontSize: 20), ),
+                     child: Text("Quiz App",style: fontStyle ),
                    ),
                  ),
 
@@ -275,16 +271,14 @@ void onSubmit2(String result2){
                       height: 70,
                      width: 60,
                    ),
-
                  
              ],),
 
-
-
               SizedBox(
-                height: 40,
+                height: 30,
               ),
-              Text("Number of Questions"),
+              Text("Number of Questions",style: fontStyle
+              ),
               SizedBox(
                 height: 6,
               ),
@@ -295,26 +289,37 @@ void onSubmit2(String result2){
                 ),
                 child: Form(
                   key: key,
-                  child: TextFormField(
-                    keyboardType: TextInputType.number,
-                    controller: textControler,
-                    autovalidate: validator,
-                    maxLength: 2,
-                    validator: (String value) {
+                    child: Container(
+                      height: 70,
+                      child: TextFormField(
+                        keyboardType: TextInputType.number,
+                        controller: textControler,
+                        autovalidate: validator,
+                        maxLength: 2,
+                        validator: (String value) {
                  if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
-                        return "Value must be less than or equal to 50";
-                      }else{
-                   return null;
-                      }
-                    },
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
+                            return "Value must be less than or equal to 50";
+                          }else{
+                       return null;
+                          }
+                        },
+                        decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide: BorderSide(width: 1,color: Colors.black),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(4)),
+                            borderSide: BorderSide(width: 1,color: Colors.black),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
 
-              Text("Select Category"),
+
+              Text("Select Category",style: fontStyle,),
                Padding(
                   padding: EdgeInsets.only(left: 29,right: 16,top: 8),
                   child: GestureDetector(
@@ -325,19 +330,24 @@ void onSubmit2(String result2){
                           });
                     },
                     behavior:  HitTestBehavior.translucent,
-                    child: TextFormField(
-                     controller: categoryController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                      suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
-                      }),
-                        border: OutlineInputBorder(),
+                    child: OutlineButton(
+                      disabledBorderColor: Colors.black,
+                      child: TextFormField(
+                       controller: categoryController,
+
+                        enabled: false,
+                        decoration: InputDecoration(
+                        suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
+                        }),
+                          //border: OutlineInputBorder(),
+                        ),
                       ),
                     ),
                   ),
                 ),
                SizedBox(height: 20),
-              Text("Select Difficulty"),
+              Text("Select Difficulty",style: fontStyle,),
+
               Padding(
                 padding: EdgeInsets.only(left: 29,right: 16,top: 8),
                 child: GestureDetector(
@@ -348,14 +358,16 @@ void onSubmit2(String result2){
                         });
                   },
                   behavior:  HitTestBehavior.translucent,
-                  child: TextFormField(
-                    controller: difficultyController,
-                    enabled: false,
-                    decoration: InputDecoration(
-                      suffixIcon: IconButton(
-                          icon: Icon(Icons.arrow_drop_down),onPressed: () {
-                      }),
-                      border: OutlineInputBorder(),
+                  child: OutlineButton(
+                    disabledBorderColor: Colors.black,
+                    child: TextFormField(
+                      controller: difficultyController,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        suffixIcon: IconButton(
+                            icon: Icon(Icons.arrow_drop_down),onPressed: () {
+                        }),
+                      ),
                     ),
                   ),
                 ),
@@ -376,7 +388,7 @@ void onSubmit2(String result2){
                           validator = true;
                         });
                       }},
-                    child: Text("submit")),
+                    child: Text("submit",style: fontStyle,)),
             ],
           ),
         ));
