@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 import './quiz.dart';
@@ -198,25 +199,7 @@ void onSubmit2(String result2){
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-//  var bar=AppBar(
-//    shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
-//    title: Text("Quiz App",style: TextStyle(color: Colors.black),),
-//    centerTitle: true,
-//
-//  );
-  String url = 'https://flutter.dev';
 
-//  _launch()async {
-//
-//    if (await canLaunch("sms:5550101234")) {
-//      await launch("sms:5550101234");
-//
-//    }
-//
-////    else {
-////      throw 'Could not launch $url';
-////    }
-//  }
 
   var fontStyle =TextStyle(
       fontFamily: "OleoScript",
@@ -235,13 +218,9 @@ void onSubmit2(String result2){
             color: Colors.purpleAccent
           ),),
          ListTile(title: Text("Source Code"),trailing: Icon(Icons.code),
-         onTap: (){}
-
-//         async{
-//           if(await canLaunch(url)){
-//              launch(url);
-//           }
-//         }
+         onTap: () {
+           launch("https://github.com/akshayyadav76/quiz_app");
+         }
          ),
           ListTile(title: Text("More Apps On Google Play"),trailing: Icon(Icons.code),
             onTap: (){},),
