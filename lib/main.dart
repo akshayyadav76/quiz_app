@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
+
 
 import './quiz.dart';
 import './dilaog.dart';
@@ -17,6 +17,7 @@ main() {
     debugShowCheckedModeBanner: false,
  theme: ThemeData(
       primaryColor: Colors.white,
+    fontFamily: "OleoScript"
     //brightness: Brightness.dark
 
 
@@ -66,13 +67,13 @@ class _AppState extends State<App> {
          url= "https://opentdb.com/api.php?amount=$amount&type=multiple&encode=base64";
         }else if(difficulty==null){
         url =
-        "https://opentdb.com/api.php?amount=$amount&category=$category&type=multiple";
+        "https://opentdb.com/api.php?amount=$amount&category=$category&type=multiple&encode=base64";
       }else if(category ==null)
         {
-         url= "https://opentdb.com/api.php?amount=$amount&difficulty=$difficulty&type=multiple";
+         url= "https://opentdb.com/api.php?amount=$amount&difficulty=$difficulty&type=multiple&encode=base64";
         }else{
         url =
-        "https://opentdb.com/api.php?amount=$amount&category=$category&difficulty=$difficulty&type=multiple";
+        "https://opentdb.com/api.php?amount=$amount&category=$category&difficulty=$difficulty&type=multiple&encode=base64";
       }
 
       print(url);
@@ -197,21 +198,24 @@ void onSubmit2(String result2){
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  var bar=AppBar(
-    shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
-    title: Text("Quiz App",style: TextStyle(color: Colors.black),),
-    centerTitle: true,
-
-  );
-
+//  var bar=AppBar(
+//    shape: CircleBorder(side: BorderSide(style:BorderStyle.none)),
+//    title: Text("Quiz App",style: TextStyle(color: Colors.black),),
+//    centerTitle: true,
+//
+//  );
+  String url = 'https://flutter.dev';
 
 //  _launch()async {
-//    const url = 'https://flutter.dev';
-//    if (await canLaunch(url)) {
-//      await launch(url,);
-//    } else {
-//      throw 'Could not launch $url';
+//
+//    if (await canLaunch("sms:5550101234")) {
+//      await launch("sms:5550101234");
+//
 //    }
+//
+////    else {
+////      throw 'Could not launch $url';
+////    }
 //  }
 
   var fontStyle =TextStyle(
@@ -232,6 +236,12 @@ void onSubmit2(String result2){
           ),),
          ListTile(title: Text("Source Code"),trailing: Icon(Icons.code),
          onTap: (){}
+
+//         async{
+//           if(await canLaunch(url)){
+//              launch(url);
+//           }
+//         }
          ),
           ListTile(title: Text("More Apps On Google Play"),trailing: Icon(Icons.code),
             onTap: (){},),
@@ -271,7 +281,6 @@ void onSubmit2(String result2){
                       height: 70,
                      width: 60,
                    ),
-                 
              ],),
 
               SizedBox(
