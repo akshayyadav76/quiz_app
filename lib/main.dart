@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
+import 'package:flutter/services.dart';
 
 
 import './quiz.dart';
@@ -12,19 +14,24 @@ import './dilaog.dart';
 
 
 
-
 main() {
+
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    systemNavigationBarColor: Colors.blue, // navigation bar color
+    statusBarColor: Colors.pink, // status bar color
+  ));
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
+
  theme: ThemeData(
       primaryColor: Colors.white,
-    fontFamily: "OleoScript"
-    //brightness: Brightness.dark
-
-
+  accentColor: Colors.black,
+    fontFamily: "OleoScript",
+    iconTheme: IconThemeData(size: 28),
+   textTheme: TextTheme(subtitle: TextStyle(fontSize: 20,color:Colors.green),button:TextStyle(fontSize: 20,color:Colors.red) ),
  ),
     home: App(
-
     ),
   ));
 }
@@ -48,6 +55,11 @@ class _AppState extends State<App> {
   static TextEditingController textControler = TextEditingController(text: "10");
   var categoryController=TextEditingController(text: "Any Value");
   var difficultyController=TextEditingController(text: "Any Value");
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+
+
+
 
 
   Future<Map> getData() async {
@@ -189,7 +201,6 @@ void onSubmit2(String result2){
     super.dispose();
   }
 
-
   void dv(){
     setState(() {
       _scaffoldKey.currentState.openDrawer();
@@ -197,36 +208,51 @@ void onSubmit2(String result2){
   }
 
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
 
-  var fontStyle =TextStyle(
-      fontFamily: "OleoScript",
-      fontSize: 20
-  );
+
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
 
     return Scaffold(
-      drawer: Drawer(
-        child: Column(children: <Widget>[
 
-          UserAccountsDrawerHeader(accountName: Text("Quiz App"),decoration: BoxDecoration(
-            color: Colors.purpleAccent
-          ),),
-         ListTile(title: Text("Source Code"),trailing: Icon(Icons.code),
+      drawer: Drawer(
+        child: Column(
+          children: <Widget>[
+         Container(
+           margin: EdgeInsets.only(top: 50),
+           child: Text("Quiz App",style: TextStyle(fontSize: 40)),
+         ),
+          Divider(),
+
+         ListTile(title: Text("Source Code",style: Theme.of(context).textTheme.title,),
+             trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.code)),
          onTap: () {
            launch("https://github.com/akshayyadav76/quiz_app");
          }
          ),
-          ListTile(title: Text("More Apps On Google Play"),trailing: Icon(Icons.code),
-            onTap: (){},),
+          ListTile(title: Text("More Apps On Google Play",
+            style: Theme.of(context).textTheme.title,),
+            trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.file_download)),
+            onTap: (){
+            launch("https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en");
+            },),
           
+          ListTile(title: Text("Share the App",style: Theme.of(context).textTheme.title,),
+            trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.share)),
+          onTap: (){
+            Share.share("Test your knowledge and get knowledge of the world with this beautiful Quiz App\n"
+                "Link-: https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en ",);
+          },),
+            ListTile(title: Text("Rate on Google play",style: Theme.of(context).textTheme.title,),
+              trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.next_week)),
+              onTap: (){
+                launch("https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en");
+              },),
 
-          
         ],
         ),
       ),
@@ -235,148 +261,168 @@ void onSubmit2(String result2){
         body:SingleChildScrollView(
           child: Column(
             children: <Widget>[
-             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-               children: <Widget>[
+            Container(
+              height: MediaQuery.of(context).size.height*0.2,
+              child:  Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  IconButton(padding: EdgeInsets.only(top: 15,left: 5),
+                      icon: Icon(Icons.dehaze), onPressed: dv
+                  ),
 
-                 IconButton(padding: EdgeInsets.only(top: 15,left: 5),
-                     icon: Icon(Icons.dehaze), onPressed: dv
-                     ),
-               
-                Card(
-                   elevation: 3,
-                   shape: CircleBorder(side: BorderSide(style:BorderStyle.none,),),
-                   child: Container(
-                     height: 70,
-                     width: 90,
-                     alignment: Alignment.center,
-                     margin: EdgeInsets.only(top: 10),
-                     child: Text("Quiz App",style: fontStyle ),
-                   ),
-                 ),
-
-                 Container(
-                   //color: Colors.red,
-                      height: 70,
-                     width: 60,
-                   ),
-             ],),
-
-              SizedBox(
-                height: 30,
-              ),
-              Text("Number of Questions",style: fontStyle
-              ),
-              SizedBox(
-                height: 6,
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 27,
-                  right: 14,
-                ),
-                child: Form(
-                  key: key,
+                  Card(
+                    elevation: 3,
+                    shape: CircleBorder(side: BorderSide(style:BorderStyle.none,),),
                     child: Container(
                       height: 70,
-                      child: TextFormField(
-                        keyboardType: TextInputType.number,
-                        controller: textControler,
-                        autovalidate: validator,
-                        maxLength: 2,
-                        validator: (String value) {
-                 if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
-                            return "Value must be less than or equal to 50";
-                          }else{
-                       return null;
-                          }
-                        },
-                        decoration: InputDecoration(
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(width: 1,color: Colors.black),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(4)),
-                            borderSide: BorderSide(width: 1,color: Colors.black),
+                      width: 90,
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(top: 10),
+                      child: Text("Quiz App",style: Theme.of(context).textTheme.headline,),
+                    ),
+                  ),
+
+                  Container(
+                    //color: Colors.red,
+                    height: 70,
+                    width: 60,
+                  ),
+                ],),
+            ),
+
+              Container(
+                height: MediaQuery.of(context).size.height*0.8,
+                child: Column(
+
+                children: <Widget>[
+
+
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Text("Number of Questions", style: Theme.of(context).textTheme.headline,
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: 27,
+                      right: 14,
+                    ),
+                    child: Form(
+                      key: key,
+                      child: Container(
+                        height: 70,
+                        child: TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: textControler,
+                          autovalidate: validator,
+                          maxLength: 2,
+                          validator: (String value) {
+                            if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
+                              return "Value must be less than or equal to 50";
+                            }else{
+                              return null;
+                            }
+                          },
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              borderSide: BorderSide(width: 1,color: Colors.black),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(4)),
+                              borderSide: BorderSide(width: 1,color: Colors.black),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
 
 
-              Text("Select Category",style: fontStyle,),
-               Padding(
-                  padding: EdgeInsets.only(left: 29,right: 16,top: 8),
-                  child: GestureDetector(
-                    onTap:(){
-                      showDialog(context: context,
-                          builder: (context){
-                            return Dilaog(onSubmit,category);
+                  Text("Select Category",style: Theme.of(context).textTheme.headline,),
+                  Padding(
+                    padding: EdgeInsets.only(left: 29,right: 16,top: 8),
+                    child: GestureDetector(
+                      onTap:(){
+                        showDialog(context: context,
+                            builder: (context){
+                              return Dilaog(onSubmit,category);
+                            });
+                      },
+                      behavior:  HitTestBehavior.translucent,
+                      child: OutlineButton(
+                        disabledBorderColor: Colors.black,
+                        child: TextFormField(
+                          controller: categoryController,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
+                            }),
+                            //border: OutlineInputBorder(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text("Select Difficulty",style: Theme.of(context).textTheme.headline,),
+
+                  Padding(
+                    padding: EdgeInsets.only(left: 29,right: 16,top: 8),
+                    child: GestureDetector(
+                      onTap:(){
+                        showDialog(context: context,
+                            builder: (context){
+                              return Dilog2(onSubmit2,difficulty);
+                            });
+                      },
+                      behavior:  HitTestBehavior.translucent,
+                      child: OutlineButton(
+                        disabledBorderColor: Colors.black,
+                        child: TextFormField(
+                          controller: difficultyController,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.arrow_drop_down),onPressed: () {
+                            }),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 20,),
+
+                  OutlineButton(
+                      borderSide: BorderSide(width: 1),
+                      color: Colors.white,
+                      onPressed: () async {
+                        if (key.currentState.validate()) {
+
+                          await getData();
+                        }
+                        else {
+                          setState(() {
+                            validator = true;
                           });
-                    },
-                    behavior:  HitTestBehavior.translucent,
-                    child: OutlineButton(
-                      disabledBorderColor: Colors.black,
-                      child: TextFormField(
-                       controller: categoryController,
+                        }},
+                      child: Text("submit",style: Theme.of(context).textTheme.headline,)),
 
-                        enabled: false,
-                        decoration: InputDecoration(
-                        suffixIcon: IconButton(icon: Icon(Icons.arrow_drop_down),onPressed: () {
-                        }),
-                          //border: OutlineInputBorder(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-               SizedBox(height: 20),
-              Text("Select Difficulty",style: fontStyle,),
 
-              Padding(
-                padding: EdgeInsets.only(left: 29,right: 16,top: 8),
-                child: GestureDetector(
-                  onTap:(){
-                    showDialog(context: context,
-                        builder: (context){
-                          return Dilog2(onSubmit2,difficulty);
-                        });
-                  },
-                  behavior:  HitTestBehavior.translucent,
-                  child: OutlineButton(
-                    disabledBorderColor: Colors.black,
-                    child: TextFormField(
-                      controller: difficultyController,
-                      enabled: false,
-                      decoration: InputDecoration(
-                        suffixIcon: IconButton(
-                            icon: Icon(Icons.arrow_drop_down),onPressed: () {
-                        }),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
 
-            SizedBox(height: 20,),
+                ],
+              ),)
 
-            OutlineButton(
-              borderSide: BorderSide(width: 1),
-              color: Colors.white,
-                    onPressed: () async {
-                      if (key.currentState.validate()) {
 
-                        await getData();
-                      }
-                      else {
-                        setState(() {
-                          validator = true;
-                        });
-                      }},
-                    child: Text("submit",style: fontStyle,)),
+
+
+
+
+
             ],
           ),
         ));

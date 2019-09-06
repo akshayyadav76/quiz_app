@@ -6,9 +6,10 @@ import 'package:flutter/services.dart';
 import './main.dart';
 
 class Quiz extends StatefulWidget {
+
   int _index = 0;
   final List as;
-  List buttons;
+   List buttons;
   List saveButtons;
 
   Quiz(this.as, this.buttons) {
@@ -24,16 +25,26 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+
+
   bool click = true;
   int qestionNo = 1;
   int right = 0;
   int wrong = 0;
 
-  _QuizState() {
-    // print("cccccccccccccccccccccccccccccccc");
-  }
+  var one = Colors.black;
+  var two = Colors.black;
+  var three = Colors.black;
+  var four = Colors.black;
+  int listQuestionNo=1;
+
+  List<String > rightWrong=[];
+var boderNone=CircleBorder(side: BorderSide(style: BorderStyle.none,));
+var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: BorderStyle.solid);
+
 
   void _reset() {
+
     setState(() {
       widget._index = 0;
       qestionNo = 01;
@@ -77,13 +88,6 @@ class _QuizState extends State<Quiz> {
         });
     return null;
   }
-
-  var one = Colors.black;
-  var two = Colors.black;
-  var three = Colors.black;
-  var four = Colors.black;
-
-  List<String > rightWrong=[];
 
 
   void btn(BuildContext context, String answer, int num) {
@@ -187,22 +191,9 @@ class _QuizState extends State<Quiz> {
     });
   }
 
-  var fontStyle = TextStyle(
-    fontFamily: "OleoScript",
-    fontSize: 30,
-  );
-  var fontStyle2 = TextStyle(
-    fontFamily: "OleoScript",
-    fontSize: 20,
-  );
-  int listQuestionNo=1;
 
   @override
   Widget build(BuildContext context) {
-    //print("bbbbbbbbbbb$four");
-    print(" index value  ${widget._index}");
-    //print("as data in quiz ${widget.as}");
-
     return WillPopScope(
       onWillPop: exit,
       child: Scaffold(
@@ -215,11 +206,7 @@ class _QuizState extends State<Quiz> {
                 Card(
                   margin: EdgeInsets.only(top: 40),
                   elevation: 4,
-                  shape: CircleBorder(
-                    side: BorderSide(
-                      style: BorderStyle.none,
-                    ),
-                  ),
+                  shape: boderNone,
                   child: Container(
                     height: 60,
                     width: 50,
@@ -230,12 +217,9 @@ class _QuizState extends State<Quiz> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text("Right", style: fontStyle2),
+                          Text("Right", style: Theme.of(context).textTheme.title),
                           Text("$right",
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontFamily: "OleoScript",
-                                  fontSize: 20)),
+                              style:Theme.of(context).textTheme.subtitle),
                         ],
                       ),
                     ),
@@ -244,11 +228,7 @@ class _QuizState extends State<Quiz> {
                 Card(
                   margin: EdgeInsets.only(top: 8),
                   elevation: 4,
-                  shape: CircleBorder(
-                    side: BorderSide(
-                      style: BorderStyle.none,
-                    ),
-                  ),
+                  shape: boderNone,
                   child: Container(
                     height: 90,
                     width: 100,
@@ -259,9 +239,9 @@ class _QuizState extends State<Quiz> {
                       children: <Widget>[
                         Text(
                           "Question",
-                          style: fontStyle2,
+                          style: Theme.of(context).textTheme.headline,
                         ),
-                        Text("$qestionNo", style: fontStyle2),
+                        Text("$qestionNo", style:  Theme.of(context).textTheme.headline,),
                       ],
                     ),
                   ),
@@ -269,11 +249,7 @@ class _QuizState extends State<Quiz> {
                 Card(
                   margin: EdgeInsets.only(top: 40),
                   elevation: 4,
-                  shape: CircleBorder(
-                    side: BorderSide(
-                      style: BorderStyle.none,
-                    ),
-                  ),
+                  shape:boderNone,
                   child: Container(
                     height: 60,
                     width: 50,
@@ -286,13 +262,10 @@ class _QuizState extends State<Quiz> {
                         children: <Widget>[
                           Text(
                             "Wrong",
-                            style: fontStyle2,
+                            style: Theme.of(context).textTheme.title,
                           ),
                           Text("$wrong",
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontFamily: "OleoScript",
-                                  fontSize: 20)),
+                              style: Theme.of(context).textTheme.button,)
                         ],
                       ),
                     ),
@@ -309,7 +282,7 @@ class _QuizState extends State<Quiz> {
                       Text(
                         utf8.decode(
                             base64Decode(widget.as[widget._index]['question'])),
-                        style: fontStyle,
+                        style:  TextStyle( fontSize: 28),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(
@@ -320,7 +293,7 @@ class _QuizState extends State<Quiz> {
                             utf8.decode(
                               base64Decode(widget.buttons[0]),
                             ),
-                            style: fontStyle2,
+                            style: Theme.of(context).textTheme.title,
                           ),
                           borderSide: BorderSide(
                             color: one,
@@ -335,7 +308,7 @@ class _QuizState extends State<Quiz> {
                       OutlineButton(
                           child: Text(
                             utf8.decode(base64Decode(widget.buttons[1])),
-                            style: fontStyle2,
+                            style:Theme.of(context).textTheme.title,
                           ),
                           borderSide: BorderSide(
                               color: two, width: 2.0, style: BorderStyle.solid),
@@ -347,7 +320,7 @@ class _QuizState extends State<Quiz> {
                       OutlineButton(
                           child: Text(
                             utf8.decode(base64Decode(widget.buttons[2])),
-                            style: fontStyle2,
+                            style: Theme.of(context).textTheme.title,
                             //widget.buttons[2]
                           ),
                           borderSide: BorderSide(
@@ -362,7 +335,7 @@ class _QuizState extends State<Quiz> {
                       OutlineButton(
                           child: Text(
                             utf8.decode(base64Decode(widget.buttons[3])),
-                            style: fontStyle2,
+                            style:Theme.of(context).textTheme.title,
                             // widget.buttons[3]
                           ),
                           borderSide: BorderSide(
@@ -377,20 +350,23 @@ class _QuizState extends State<Quiz> {
                     ],
                   )
                 : Container(
+
+
+
                     child: Column(
                     children: <Widget>[
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           OutlineButton(borderSide: BorderSide(width: 1,color: Colors.black),
-                              child: Text("Restert the Quiz"),
+                              child: Text("Restert the Quiz",style: Theme.of(context).textTheme.subhead,),
                               onPressed: _reset),
                           SizedBox(
                             width: 10,
                           ),
                           OutlineButton(
                               borderSide: BorderSide(width: 1,color: Colors.black),
-                              child: Text("Reset the Quiz"),
+                              child: Text("Reset the Quiz",style: Theme.of(context).textTheme.subhead,),
                               onPressed: () {
                                 Navigator.of(context)
                                     .push(MaterialPageRoute(builder: (context) {
@@ -407,14 +383,11 @@ class _QuizState extends State<Quiz> {
                               return Column(
                                 children: <Widget>[
                                   Text(
-                                      "${listQuestionNo+indexx}. " "${utf8.decode(base64Decode(
-                                          widget.as[indexx]['question']))} "
-
+                                      " ${listQuestionNo+indexx}. " "${utf8.decode(base64Decode(
+                                          widget.as[indexx]['question']))} ",style:Theme.of(context).textTheme.title,
                                   ),
                                   rightWrong[indexx]== widget.as[indexx]['correct_answer']
                                   ?Icon(Icons.check):Icon(Icons.close),
-
-
                                   FittedBox(
                                     fit: BoxFit.fill,
                                     child: Row(
@@ -425,14 +398,9 @@ class _QuizState extends State<Quiz> {
                                             child: Text(
                                           utf8.decode(base64Decode(widget
                                               .as[indexx]['correct_answer'])
-                                          ),style: TextStyle(
-                                              color: Colors.green
-                                            ),
+                                          ),style: Theme.of(context).textTheme.subtitle,
                                         ),
-                              borderSide: BorderSide(
-                              color: three,
-                              width: 2.0,
-                              style: BorderStyle.solid),
+                              borderSide: lastButtonsBorder,
                                         ),
                                         OutlineButton(onPressed: (){},
                                             child: Text(utf8.decode(base64Decode(
@@ -440,11 +408,9 @@ class _QuizState extends State<Quiz> {
                                                         ['incorrect_answers']
                                                     [0])
 
-                                            ),style: TextStyle(color: Colors.red),)
-                                        , borderSide: BorderSide(
-                                            color: three,
-                                            width: 2.0,
-                                            style: BorderStyle.solid),)
+                                            ),style: Theme.of(context).textTheme.button),
+                                          borderSide:lastButtonsBorder,
+                              )
                                       ],
                                     ),
                                   ),
@@ -456,26 +422,20 @@ class _QuizState extends State<Quiz> {
                                       children: <Widget>[
 
                                         OutlineButton(
-                                        onPressed: (){}, borderSide: BorderSide(
-                                        color: three,
-                                        width: 2.0,
-                                        style: BorderStyle.solid),
+                                        onPressed: (){},
+                                         borderSide: lastButtonsBorder,
                                           child:
                                           Text(utf8.decode(base64Decode(
                                               widget.as[indexx]['incorrect_answers'][1])
-                              ),style: TextStyle(color: Colors.red),
+                              ),style: Theme.of(context).textTheme.button,
                               )
                                         ),
                                         OutlineButton(onPressed: (){},
                                           child: Text(utf8.decode(base64Decode(
                                               widget.as[indexx]
                                                       ['incorrect_answers']
-                                                  [2])),style: TextStyle(
-                                            color: Colors.red
-                                          ),), borderSide: BorderSide(
-                                            color: three,
-                                            width: 2.0,
-                                            style: BorderStyle.solid),
+                                                  [2])),style: Theme.of(context).textTheme.button,),
+                                     borderSide:lastButtonsBorder,
                                         )
                                       ],
                                     ),
