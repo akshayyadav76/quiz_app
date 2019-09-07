@@ -17,8 +17,8 @@ import './dilaog.dart';
 main() {
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    systemNavigationBarColor: Colors.blue, // navigation bar color
-    statusBarColor: Colors.pink, // status bar color
+   // systemNavigationBarColor: Colors.blue, // navigation bar color
+    statusBarColor: Colors.black, // status bar color
   ));
 
   runApp(MaterialApp(
@@ -29,7 +29,8 @@ main() {
   accentColor: Colors.black,
     fontFamily: "OleoScript",
     iconTheme: IconThemeData(size: 28),
-   textTheme: TextTheme(subtitle: TextStyle(fontSize: 20,color:Colors.green),button:TextStyle(fontSize: 20,color:Colors.red) ),
+   textTheme: TextTheme(subtitle: TextStyle(fontSize: 20,color:Colors.green),
+       button:TextStyle(fontSize: 20,color:Colors.red) ),
  ),
     home: App(
     ),
@@ -109,7 +110,7 @@ class _AppState extends State<App> {
     }));
   }else {
       return showDialog(context: context,barrierDismissible: false,builder: (context){
-        return AlertDialog(content: Text("NO Data Connecnton"),
+        return AlertDialog(content: Text("No Data Connecnton avalible"),
         actions: <Widget>[
           OutlineButton(child: Text("Ok"),onPressed:(){
             Navigator.of(context).pop();
@@ -245,13 +246,22 @@ void onSubmit2(String result2){
             trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.share)),
           onTap: (){
             Share.share("Test your knowledge and get knowledge of the world with this beautiful Quiz App\n"
-                "Link-: https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en ",);
+               "Link-: https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en ",);
           },),
             ListTile(title: Text("Rate on Google play",style: Theme.of(context).textTheme.title,),
               trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.next_week)),
               onTap: (){
                 launch("https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en");
               },),
+            ListTile(title: Text("About",style: Theme.of(context).textTheme.title),
+              trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.error)),
+            onTap: (){
+              showDialog(context:context,builder:(context){
+                return AlertDialog(title: Text("About"),content: Text("This is the full fledged sample app of flutter framework "
+                    "if you like it you can check the source code on github fork and start it..enjoy the app "
+                ),);
+              });
+            },),
 
         ],
         ),
@@ -269,13 +279,12 @@ void onSubmit2(String result2){
                   IconButton(padding: EdgeInsets.only(top: 15,left: 5),
                       icon: Icon(Icons.dehaze), onPressed: dv
                   ),
-
                   Card(
                     elevation: 3,
                     shape: CircleBorder(side: BorderSide(style:BorderStyle.none,),),
                     child: Container(
-                      height: 70,
-                      width: 90,
+                      height: 80,
+                      width: 100,
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(top: 10),
                       child: Text("Quiz App",style: Theme.of(context).textTheme.headline,),
