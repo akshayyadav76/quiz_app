@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import './main.dart';
-import './madel.dart';
 import './solutions.dart';
+import './database.dart';
+import './model.dart';
+import './widgets/row.dart';
 
 class Quiz extends StatefulWidget {
 
@@ -30,9 +33,15 @@ class _QuizState extends State<Quiz> {
 
 
   bool click = true;
-  int qestionNo = 1;
+  int questionNo = 1;
   int right = 0;
   int wrong = 0;
+  String madelName;
+  String madelIcon;
+  String date;
+  String time;
+
+
 
   var one = Colors.black;
   var two = Colors.black;
@@ -41,7 +50,7 @@ class _QuizState extends State<Quiz> {
 
 
   List<String> rightWrong=[];
-var boderNone=CircleBorder(side: BorderSide(style: BorderStyle.none,));
+
 var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: BorderStyle.solid);
 
 
@@ -49,7 +58,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
 
     setState(() {
       widget._index = 0;
-      qestionNo = 01;
+      questionNo = 01;
       right = 0;
       wrong = 0;
       rightWrong.clear();
@@ -169,7 +178,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
 
         if (widget._index < widget.as.length) {
 
-          qestionNo = qestionNo + 1;
+          questionNo = questionNo + 1;
 
           widget.buttons = [
             widget.as[widget._index]['correct_answer'],
@@ -186,11 +195,59 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
           ];
           widget.buttons.shuffle();
         }else{
+
+          int one = widget.as.length % 40;
+          int two = widget.as.length % 70;
+          int three = widget.as.length % 100;
+
+          if (right < one) {
+            madelIcon = "assets/madel_icons/bronze.png";
+            madelName = "Bronze Madel";
+          }
+          if (right < two && right > one) {
+            madelIcon = "assets/madel_icons/silver.png";
+            madelName = "Silver Madel";
+          }
+          if (right < three && right > two) {
+            madelIcon = "assets/madel_icons/gold.png";
+            madelName = "Gold Madel";
+          }
+           date = DateFormat("dd-MM-yyyy").format(DateTime.now());
+          time = DateFormat("hh:mm:a").format(DateTime.now());
+          print("date  $date");
+          print("time  $time");
+
+
           widget.buttons=widget.saveButtons;
+          todo();
+
         }
         //print(widget._index);
       });
     });
+  }
+
+
+  todo()async{
+    DataBaseDB _db=DataBaseDB();
+
+   int saved= await _db.saveData(
+       Model(widget.as.length, right, wrong, right*3, madelName, madelIcon, date, time)
+   );
+    //var se=_db.db;
+   print("sssssssssssssssssssssssssssssssssssssss$saved");
+
+
+
+ int deleteuser = await _db.deleteData(1);
+  int  deleteuser2 = await _db.deleteData(3);
+    int  deleteuser3 = await _db.deleteData(4);
+
+ print("dddddddddddddddd$deleteuser");
+
+    print("sssssssssssssssssssssssssssssssssssssss$saved");
+
+
   }
 
 
@@ -208,79 +265,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
               Container(
                 height: (MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top)
                     * 0.2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Card(
-                      margin: EdgeInsets.only(top: 40),
-                      elevation: 4,
-                      shape: boderNone,
-                      child: Container(
-                        height: 60,
-                        width: 50,
-                        alignment: Alignment.center,
-                        // margin: EdgeInsets.only(top: 13),
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text("Right", style: Theme.of(context).textTheme.title),
-                              Text("$right",
-                                  style:Theme.of(context).textTheme.subtitle),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.only(top: 12),
-                      elevation: 4,
-                      shape: boderNone,
-                      child: Container(
-                        height: 90,
-                        width: 100,
-                        alignment: Alignment.center,
-                       // margin: EdgeInsets.only(top: 4),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: <Widget>[
-                            Text(
-                              "Question",
-                              style: Theme.of(context).textTheme.headline,
-                            ),
-                            Text("$qestionNo", style:  Theme.of(context).textTheme.headline,),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Card(
-                      margin: EdgeInsets.only(top: 40),
-                      elevation: 4,
-                      shape:boderNone,
-                      child: Container(
-                        height: 60,
-                        width: 50,
-                        alignment: Alignment.center,
-                        //margin: EdgeInsets.only(top: 13),
-                        child: FittedBox(
-                          fit: BoxFit.fill,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              Text(
-                                "Wrong",
-                                style: Theme.of(context).textTheme.title,
-                              ),
-                              Text("$wrong",
-                                  style: Theme.of(context).textTheme.button,)
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                 child: Rows(questionNo, right, wrong),
               ),
 
               widget._index < widget.as.length
@@ -369,8 +354,23 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
                       children: <Widget>[
                             Container(
                                 height:(MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top) *0.56,
-                                child:
-                                Madel(widget.as.length,right)),
+                                child:Column(
+                                  children: <Widget>[
+                                    Card(
+                                        shape: CircleBorder(),
+                                        child:
+                                        Image.asset(
+                                          madelIcon,
+                                          height:  300,
+                                        )
+                                    ),
+                                    Text(madelName, style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .title,),
+                                  ],
+                                )
+                            ),
 
                         Container(
                           height:(MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top) *0.24,

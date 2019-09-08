@@ -11,6 +11,8 @@ import 'package:flutter/services.dart';
 
 import './quiz.dart';
 import './dilaog.dart';
+import './database.dart';
+import './top_scors.dart';
 
 
 
@@ -33,6 +35,7 @@ main() {
        button:TextStyle(fontSize: 20,color:Colors.red) ),
  ),
     home: App(
+
     ),
   ));
 }
@@ -235,6 +238,15 @@ void onSubmit2(String result2){
            launch("https://github.com/akshayyadav76/quiz_app");
          }
          ),
+
+            ListTile(title: Text("Top Scores",style: Theme.of(context).textTheme.title,),
+                trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.child_care)),
+                onTap: () {
+                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                   return TopScors();
+                 }));
+                }
+            ),
           ListTile(title: Text("More Apps On Google Play",
             style: Theme.of(context).textTheme.title,),
             trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.file_download)),
@@ -304,7 +316,6 @@ void onSubmit2(String result2){
                 child: Column(
 
                 children: <Widget>[
-
 
                   SizedBox(
                     height: 30,
