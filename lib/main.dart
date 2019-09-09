@@ -269,8 +269,9 @@ void onSubmit2(String result2){
               trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.error)),
             onTap: (){
               showDialog(context:context,builder:(context){
-                return AlertDialog(title: Text("About"),content: Text("This is the full fledged sample app of flutter framework "
-                    "if you like it you can check the source code on github fork and start it..enjoy the app "
+                return AlertDialog(title: Text("About",  style: Theme.of(context).textTheme.headline),content: Text("This is the full fledged sample app of flutter framework "
+                    "if you like it you can check the source code on github fork and star it..enjoy the app ",
+                  style: Theme.of(context).textTheme.headline,
                 ),);
               });
             },),
