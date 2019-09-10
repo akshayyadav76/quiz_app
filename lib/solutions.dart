@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import './widgets/ap_bar.dart';
 
 class Solutions extends StatelessWidget {
   List as;
@@ -17,12 +18,13 @@ class Solutions extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Container(
-                height: MediaQuery.of(context).size.height*0.15,
-                padding: EdgeInsets.only(top: 30),
-                child: Text("Solutions",style: Theme.of(context).textTheme.display2,)),
+                height: MediaQuery.of(context).size.height*0.18,
+                child: ApBar("Solutions")
+            
+            ),
 
             Container(
-              height: MediaQuery.of(context).size.height*0.85,
+              height: MediaQuery.of(context).size.height*0.82,
               child: ListView.builder(
                   padding: EdgeInsets.only(top: 40,left: 5),
                   itemCount: as.length,

@@ -13,6 +13,7 @@ import './quiz.dart';
 import './dilaog.dart';
 import './database.dart';
 import './top_scors.dart';
+import './widgets/ap_bar.dart';
 
 
 
@@ -215,9 +216,6 @@ void onSubmit2(String result2){
 
 
 
-
-
-
   @override
   Widget build(BuildContext context){
 
@@ -263,15 +261,30 @@ void onSubmit2(String result2){
             ListTile(title: Text("Rate on Google play",style: Theme.of(context).textTheme.title,),
               trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.next_week)),
               onTap: (){
-                launch("https://play.google.com/store/apps/developer?id=Akshay+yadav&hl=en");
+                launch("https://play.google.com/store/apps/developer?id=com.akshay.quiz_app");
               },),
-            ListTile(title: Text("About",style: Theme.of(context).textTheme.title),
+
+            ListTile(title: Text("Credits & About",style: Theme.of(context).textTheme.title),
               trailing: IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.error)),
             onTap: (){
               showDialog(context:context,builder:(context){
-                return AlertDialog(title: Text("About",  style: Theme.of(context).textTheme.headline),content: Text("This is the full fledged sample app of flutter framework "
-                    "if you like it you can check the source code on github fork and star it..enjoy the app ",
-                  style: Theme.of(context).textTheme.headline,
+                return AlertDialog(title: Text("Credits & About",
+                    style: Theme.of(context).textTheme.headline),content:
+                Column(
+                  children: <Widget>[
+                    Text("Credits\n""<- Resources ->",style: Theme.of(context).textTheme.headline,textAlign: TextAlign.center,),
+                    Text("Created my free logo at",style:Theme.of(context).textTheme.title,),
+                    GestureDetector(child: Text("LogoMakr.com\n",style: TextStyle(
+                      color: Colors.lightBlue,fontSize: 20.0
+                    ),),
+                    onTap: (){
+                      launch("https://logomakr.com");},),
+                    Text("About",style: Theme.of(context).textTheme.headline,),
+                    Text("This is the full fledged sample app of flutter framework "
+                        "if you like it you can check the source code on github fork and star it..enjoy the app ",
+                      style: Theme.of(context).textTheme.title,
+                    ),
+                  ],
                 ),);
               });
             },),
@@ -280,6 +293,7 @@ void onSubmit2(String result2){
         ),
       ),
       key: _scaffoldKey,
+
         backgroundColor: Theme.of(context).primaryColor,
         body:SingleChildScrollView(
           child: Column(
@@ -292,18 +306,7 @@ void onSubmit2(String result2){
                   IconButton(padding: EdgeInsets.only(top: 15,left: 5),
                       icon: Icon(Icons.dehaze), onPressed: dv
                   ),
-                  Card(
-                    elevation: 3,
-                    shape: CircleBorder(side: BorderSide(style:BorderStyle.none,),),
-                    child: Container(
-                      height: 80,
-                      width: 100,
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(top: 10),
-                      child: Text("Quiz App",style: Theme.of(context).textTheme.headline,),
-                    ),
-                  ),
-
+                 ApBar("Quiz App"),
                   Container(
                     //color: Colors.red,
                     height: 70,
@@ -341,8 +344,8 @@ void onSubmit2(String result2){
                           autovalidate: validator,
                           maxLength: 2,
                           validator: (String value) {
-                            if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 1) {
-                              return "Value must be less than or equal to 50";
+                            if (value.isEmpty || int.parse(value) > 50 || int.parse(value) < 2) {
+                              return "Value must be Greater then 9 or less than or equal to 50";
                             }else{
                               return null;
                             }
@@ -432,17 +435,8 @@ void onSubmit2(String result2){
                           });
                         }},
                       child: Text("submit",style: Theme.of(context).textTheme.headline,)),
-
-
-
                 ],
               ),)
-
-
-
-
-
-
 
             ],
           ),

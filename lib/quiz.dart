@@ -9,6 +9,7 @@ import './solutions.dart';
 import './database.dart';
 import './model.dart';
 import './widgets/row.dart';
+import './top_scors.dart';
 
 class Quiz extends StatefulWidget {
 
@@ -195,12 +196,17 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
           ];
           widget.buttons.shuffle();
         }else{
-
+          int zero=widget.as.length % 10;
           int one = widget.as.length % 40;
           int two = widget.as.length % 70;
           int three = widget.as.length % 100;
 
-          if (right < one) {
+          if(right <= zero ){
+            madelName ="You don't deserve medal";
+           madelIcon= "assets/madel_icons/no_madel.png";
+          }
+
+          if (right < one && right >zero) {
             madelIcon = "assets/madel_icons/bronze.png";
             madelName = "Bronze Madel";
           }
@@ -234,20 +240,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
    int saved= await _db.saveData(
        Model(widget.as.length, right, wrong, right*3, madelName, madelIcon, date, time)
    );
-    //var se=_db.db;
    print("sssssssssssssssssssssssssssssssssssssss$saved");
-
-
-
- int deleteuser = await _db.deleteData(1);
-  int  deleteuser2 = await _db.deleteData(3);
-    int  deleteuser3 = await _db.deleteData(4);
-
- print("dddddddddddddddd$deleteuser");
-
-    print("sssssssssssssssssssssssssssssssssssssss$saved");
-
-
   }
 
 
@@ -263,150 +256,174 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
             children: <Widget>[
 
               Container(
-                height: (MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top)
-                    * 0.2,
-                 child: Rows(questionNo, right, wrong),
+                height: MediaQuery.of(context).size.height * 0.2,
+              //width: MediaQuery.of(context).size.width *0.2,
+                 child:
+                 Rows(questionNo, right, wrong),
               ),
 
               widget._index < widget.as.length
                   ? Container(
-                height: (MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top)  *0.8,
+                height: MediaQuery.of(context).size.height *0.8,
                 child: Column(
                 children: <Widget>[
-                  SizedBox(
-                    height: 20,
+
+                  SizedBox(  height: MediaQuery.of(context).size.height *0.05,),
+
+                  Flexible(
+                    child: Container(
+                      //height: MediaQuery.of(context).size.height *0.3,
+                      //width: MediaQuery.of(context).size.height *1,
+
+                             child: Text(
+                                  utf8.decode(
+                                      base64Decode(widget.as[widget._index]['question'])),
+                                  style:  TextStyle( fontSize: 28),
+                                  textAlign: TextAlign.center,
+                                ),
+                    ),
                   ),
-                  Text(
-                    utf8.decode(
-                        base64Decode(widget.as[widget._index]['question'])),
-                    style:  TextStyle( fontSize: 28),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  OutlineButton(
-                      child: Text(
-                        utf8.decode(
-                          base64Decode(widget.buttons[0]),
-                        ),
-                        style: Theme.of(context).textTheme.title,
-                      ),
-                      borderSide: BorderSide(
-                        color: one,
-                        width: 2.0,
-                        style: BorderStyle.solid,
-                      ),
-                      onPressed: () {
-                        if (click) {
-                          btn(context, widget.buttons[0], 1);
-                        }
-                      }),
-                  OutlineButton(
-                      child: Text(
-                        utf8.decode(base64Decode(widget.buttons[1])),
-                        style:Theme.of(context).textTheme.title,
-                      ),
-                      borderSide: BorderSide(
-                          color: two, width: 2.0, style: BorderStyle.solid),
-                      onPressed: () {
-                        if (click) {
-                          btn(context, widget.buttons[1], 2);
-                        }
-                      }),
-                  OutlineButton(
-                      child: Text(
-                        utf8.decode(base64Decode(widget.buttons[2])),
-                        style: Theme.of(context).textTheme.title,
-                        //widget.buttons[2]
-                      ),
-                      borderSide: BorderSide(
-                          color: three,
-                          width: 2.0,
-                          style: BorderStyle.solid),
-                      onPressed: () {
-                        if (click) {
-                          btn(context, widget.buttons[2], 3);
-                        }
-                      }),
-                  OutlineButton(
-                      child: Text(
-                        utf8.decode(base64Decode(widget.buttons[3])),
-                        style:Theme.of(context).textTheme.title,
-                        // widget.buttons[3]
-                      ),
-                      borderSide: BorderSide(
-                          color: four,
-                          width: 2.0,
-                          style: BorderStyle.solid),
-                      onPressed: () {
-                        if (click) {
-                          btn(context, widget.buttons[3], 4);
-                        }
-                      })
+                  SizedBox(  height: MediaQuery.of(context).size.height *0.05),
+                  Flexible(
+                    child: Container(
+                      //height: MediaQuery.of(context).size.height *0.4,
+                      child: Column(children: <Widget>[
+                        OutlineButton(
+                            child: Text(
+                              utf8.decode(
+                                base64Decode(widget.buttons[0]),
+                              ),
+                              style: Theme.of(context).textTheme.title,
+                            ),
+                            borderSide: BorderSide(
+                              color: one,
+                              width: 2.0,
+                              style: BorderStyle.solid,
+                            ),
+                            onPressed: () {
+                              if (click) {
+                                btn(context, widget.buttons[0], 1);
+                              }
+                            }),
+                        OutlineButton(
+                            child: Text(
+                              utf8.decode(base64Decode(widget.buttons[1])),
+                              style:Theme.of(context).textTheme.title,
+                            ),
+                            borderSide: BorderSide(
+                                color: two, width: 2.0, style: BorderStyle.solid),
+                            onPressed: () {
+                              if (click) {
+                                btn(context, widget.buttons[1], 2);
+                              }
+                            }),
+                        OutlineButton(
+                            child: Text(
+                              utf8.decode(base64Decode(widget.buttons[2])),
+                              style: Theme.of(context).textTheme.title,
+                              //widget.buttons[2]
+                            ),
+                            borderSide: BorderSide(
+                                color: three,
+                                width: 2.0,
+                                style: BorderStyle.solid),
+                            onPressed: () {
+                              if (click) {
+                                btn(context, widget.buttons[2], 3);
+                              }
+                            }),
+                        OutlineButton(
+                            child: Text(
+                              utf8.decode(base64Decode(widget.buttons[3])),
+                              style:Theme.of(context).textTheme.title,
+                              // widget.buttons[3]
+                            ),
+                            borderSide: BorderSide(
+                                color: four,
+                                width: 2.0,
+                                style: BorderStyle.solid),
+                            onPressed: () {
+                              if (click) {
+                                btn(context, widget.buttons[3], 4);
+                              }
+                            })
+                      ],),
+                    ),
+                  )
+
                 ],
               )
                 ,)
 
                   : Container(
-              // height:(MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top) *0.8,
+               //height:MediaQuery.of(context).size.height*0.8,
                       child: Column(
                       children: <Widget>[
-                            Container(
-                                height:(MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top) *0.56,
-                                child:Column(
-                                  children: <Widget>[
-                                    Card(
-                                        shape: CircleBorder(),
-                                        child:
-                                        Image.asset(
-                                          madelIcon,
-                                          height:  300,
-                                        )
-                                    ),
-                                    Text(madelName, style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .title,),
-                                  ],
-                                )
-                            ),
+                             Container(
+                                  height:MediaQuery.of(context).size.height *0.47,
+                                  child:Column(
+                                    children: <Widget>[
+                                      Card(
+                                          shape: CircleBorder(),
+                                          child:
+                                          Image.asset(
+                                            madelIcon,
+                                            height: MediaQuery.of(context).size.height *0.4,
+                                          )
+                                      ),
+                                      Text(madelName, style: Theme
+                                          .of(context)
+                                          .textTheme
+                                          .title,),
+                                    ],
+                                  )
+                              ),
 
-                        Container(
-                          height:(MediaQuery.of(context).size.height-MediaQuery.of(context).padding.top) *0.24,
-                              child: Column(children: <Widget>[
-                                Text("Points: ${right*3}",style: Theme.of(context).textTheme.title,),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    OutlineButton(borderSide: lastButtonsBorder,
-                                        child: Text("Restert the Quiz",style: Theme.of(context).textTheme.title,),
-                                        onPressed: _reset),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    OutlineButton(
-                                        borderSide: lastButtonsBorder,
-                                        child: Text("Reset the Quiz",style: Theme.of(context).textTheme.title,),
-                                        onPressed: () {
-                                          Navigator.of(context)
-                                              .push(MaterialPageRoute(builder: (context) {
-                                            return App();
-                                          }));
-                                        }),
 
-                                  ],
-                                ),
-                                OutlineButton(
-                                    borderSide: lastButtonsBorder,
-                                    child:Text("Solutions",style: Theme.of(context).textTheme.title),
-                                    onPressed: (){
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                        return Solutions(widget.as,rightWrong,lastButtonsBorder);
-                                      }));
-                                    })
-                              ],),
-                            )
+                         Container(
+                            height:MediaQuery.of(context).size.height *0.33,
+                                child: Column(children: <Widget>[
+                                  Text("Points: ${right*3}",style: Theme.of(context).textTheme.title,),
+                                  OutlineButton(
+                                      borderSide: lastButtonsBorder,
+                                      child:Text("Top Scores",style: Theme.of(context).textTheme.title),
+                                      onPressed: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                          return TopScors();
+                                        }));
+                                      }),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      OutlineButton(borderSide: lastButtonsBorder,
+                                          child: Text("Restert the Quiz",style: Theme.of(context).textTheme.title,),
+                                          onPressed: _reset),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      OutlineButton(
+                                          borderSide: lastButtonsBorder,
+                                          child: Text("Reset the Quiz",style: Theme.of(context).textTheme.title,),
+                                          onPressed: () {
+                                            Navigator.of(context)
+                                                .push(MaterialPageRoute(builder: (context) {
+                                              return App();
+                                            }));
+                                          }),
+
+                                    ],
+                                  ),
+                                  OutlineButton(
+                                      borderSide: lastButtonsBorder,
+                                      child:Text("Solutions",style: Theme.of(context).textTheme.title),
+                                      onPressed: (){
+                                        Navigator.of(context).push(MaterialPageRoute(builder: (context){
+                                          return Solutions(widget.as,rightWrong,lastButtonsBorder);
+                                        }));
+                                      })
+                                ],),
+                              ),
+
                       ],
                     )),
             ],

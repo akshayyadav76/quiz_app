@@ -52,6 +52,7 @@ flutter:
     - assets/madel_icons/bronze.png
     - assets/madel_icons/silver.png
     - assets/madel_icons/gold.png
+    - assets/madel_icons/no_madel.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
