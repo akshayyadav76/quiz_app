@@ -33,9 +33,6 @@ class _TopScorsState extends State<TopScors> {
   }
 
 
-  //List user = await _db.getData();
-
-
   @override
   Widget build(BuildContext context) {
     print("sssdasdaddadadd$allTopScores");
@@ -58,7 +55,7 @@ class _TopScorsState extends State<TopScors> {
                 itemCount:  allTopScores.length,
                 itemBuilder: (context,index){
                   return Container(
-                    height: 174,
+                    height: MediaQuery.of(context).size.height*0.3,
                    // width: 100,
                     child: Dismissible(
                         key: Key("$index"),
@@ -74,20 +71,20 @@ class _TopScorsState extends State<TopScors> {
                         child: Column(
                             children: <Widget>[
                               Container(
-                                height:  MediaQuery.of(context).size.height*0.16,
+
+                                height:  MediaQuery.of(context).size.height*0.15,
                                 width:  MediaQuery.of(context).size.width*1,
 
-
-                                          child: Rows(allTopScores[index]['total_questions'], allTopScores[index]['right'],
-                                              allTopScores[index]['wrong']),
-
-
+                                  child: Rows(allTopScores[index]['total_questions'], allTopScores[index]['right'],
+                                                allTopScores[index]['wrong']),
                               ),
                               Card(
                                 child: ListTile(leading: Image.asset(allTopScores[index]['medal_icon'],
                                   height: 60,width: 60,),
-                                    title: Text(allTopScores[index]['medal_name'],style: Theme.of(context).textTheme.headline,
-                                      textAlign: TextAlign.center,),
+                                    title: FittedBox(fit: BoxFit.scaleDown,
+                                      child: Text(allTopScores[index]['medal_name'],style: Theme.of(context).textTheme.headline,
+                                        textAlign: TextAlign.center,),
+                                    ),
                                     trailing: Column(
                                       children: <Widget>[
                                         Text("Score",style: Theme.of(context).textTheme.title,),

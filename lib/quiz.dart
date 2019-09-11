@@ -165,7 +165,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
         });
     }
 
-    Future.delayed(new Duration(seconds: 2), () {
+    Future.delayed(new Duration(seconds: 1), () {
       setState(() {
         one = Colors.black;
         two = Colors.black;
@@ -196,25 +196,25 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
           ];
           widget.buttons.shuffle();
         }else{
-          int zero=widget.as.length % 10;
-          int one = widget.as.length % 40;
-          int two = widget.as.length % 70;
-          int three = widget.as.length % 100;
+          int zero=   10  ~/ widget.as.length;
+          int one =   40  ~/ widget.as.length;
+          int two =   70  ~/ widget.as.length;
+          int three = 100 ~/ widget.as.length;
 
           if(right <= zero ){
             madelName ="You don't deserve medal";
            madelIcon= "assets/madel_icons/no_madel.png";
           }
 
-          if (right < one && right >zero) {
+          if (right <= one && right >zero) {
             madelIcon = "assets/madel_icons/bronze.png";
             madelName = "Bronze Madel";
           }
-          if (right < two && right > one) {
+          if (right <= two && right > one) {
             madelIcon = "assets/madel_icons/silver.png";
             madelName = "Silver Madel";
           }
-          if (right < three && right > two) {
+          if (right <= three && right > two) {
             madelIcon = "assets/madel_icons/gold.png";
             madelName = "Gold Madel";
           }
@@ -268,7 +268,7 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
                 child: Column(
                 children: <Widget>[
 
-                  SizedBox(  height: MediaQuery.of(context).size.height *0.05,),
+                SizedBox(  height: 10,),
 
                   Flexible(
                     child: Container(
@@ -283,8 +283,9 @@ var lastButtonsBorder= BorderSide(color: Colors.black, width: 2.0, style: Border
                                 ),
                     ),
                   ),
-                  SizedBox(  height: MediaQuery.of(context).size.height *0.05),
-                  Flexible(
+                SizedBox(  height: 10),
+
+                    Expanded(
                     child: Container(
                       //height: MediaQuery.of(context).size.height *0.4,
                       child: Column(children: <Widget>[

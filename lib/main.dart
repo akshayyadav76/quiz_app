@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 
 import './quiz.dart';
 import './dilaog.dart';
-import './database.dart';
 import './top_scors.dart';
 import './widgets/ap_bar.dart';
 
@@ -23,6 +22,7 @@ main() {
    // systemNavigationBarColor: Colors.blue, // navigation bar color
     statusBarColor: Colors.black, // status bar color
   ));
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -58,8 +58,8 @@ class _AppState extends State<App> {
   int groupValue=0;
   GlobalKey<FormState> key = GlobalKey();
   static TextEditingController textControler = TextEditingController(text: "10");
-  var categoryController=TextEditingController(text: "Any Value");
-  var difficultyController=TextEditingController(text: "Any Value");
+  var categoryController=TextEditingController(text: "Any Category");
+  var difficultyController=TextEditingController(text: "Any Difficulty");
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
@@ -129,7 +129,8 @@ void onSubmit2(String result2){
   setState(() {
     difficulty = result2;
     switch(difficulty){
-      case "8": difficultyController.text="any Dificulty";
+      case "8": difficultyController.text= "Any Difficulty";
+         difficulty =null;
       break;
       case "easy": difficultyController.text="Easy";
       break;
